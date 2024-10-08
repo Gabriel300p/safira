@@ -1,0 +1,170 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id           Int          @id @default(autoincrement())
+  nome         String
+  sobrenome    String
+  email        String       @unique
+  senha        String
+  criadoEm     DateTime     @default(now())
+  atualizadoEm DateTime     @updatedAt
+  Animal       Animal[]
+  Tutor        Tutor[]
+  Raca         Raca[]
+  Vacina       Vacina[]
+  Financeiro   Financeiro[]
+  Categoria    Categoria[]
+}
+
+// CONTROLE DE ANIMAIS
+
+enum PORTE {
+  PEQUENO
+  MEDIO
+  GRANDE
+}
+
+enum SEXO {
+  MACHO
+  FEMEA
+  INDEFINIDO
+}
+
+enum TIPO_ANIMAL {
+  CACHORRO
+  GATO
+}
+
+model Animal {
+  id           Int            @id @default(autoincrement())
+  nome         String
+  castrado     Boolean
+  vacinado     Boolean
+  adestrado    Boolean
+  microchip    Boolean
+  obito        Boolean
+  adotado      Boolean
+  porte        PORTE
+  sexo         SEXO
+  tipo         TIPO_ANIMAL
+  observacao   String?
+  imagem       String?
+  raca         Raca           @relation(fields: [racaId], references: [id])
+  usuario      Usuario        @relation(fields: [usuarioId], references: [id])
+  vacina       Vacina         @relation(fields: [vacinaId], references: [id])
+  tutor        Tutor          @relation(fields: [tutorId], references: [id])
+  criadoEm     DateTime       @default(now())
+  atualizadoEm DateTime       @updatedAt
+  racaId       Int
+  usuarioId    Int
+  vacinaId     Int
+  tutorId      Int
+  VacinaAnimal VacinaAnimal[]
+}
+
+model Vacina {
+  id           Int            @id @default(autoincrement())
+  nome         String
+  tipo         String?
+  ultima       DateTime
+  proxima      DateTime
+  observacao   String?
+  usuario      Usuario        @relation(fields: [usuarioId], references: [id])
+  criadoEm     DateTime       @default(now())
+  atualizadoEm DateTime       @updatedAt
+  Animal       Animal[]
+  usuarioId    Int
+  VacinaAnimal VacinaAnimal[]
+}
+
+model VacinaAnimal {
+  id           Int      @id @default(autoincrement())
+  vacina       Vacina   @relation(fields: [vacinaId], references: [id])
+  animal       Animal   @relation(fields: [animalId], references: [id])
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+  vacinaId     Int
+  animalId     Int
+}
+
+model Raca {
+  id           Int      @id @default(autoincrement())
+  nome         String
+  observacao   String?
+  usuario      Usuario  @relation(fields: [usuarioId], references: [id])
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+  Animal       Animal[]
+  usuarioId    Int
+}
+
+model Tutor {
+  id           Int      @id @default(autoincrement())
+  nome         String
+  email        String?
+  telefone     String
+  cep          String
+  numero       String
+  bairro       String
+  complemento  String?
+  cidade       String
+  estado       String
+  observacao   String?
+  usuario      Usuario  @relation(fields: [usuarioId], references: [id])
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+  usuarioId    Int
+  Animal       Animal[]
+}
+
+// CONTROLE FINANCEIRO
+
+enum TIPO_FINANCEIRO {
+  DESPESA
+  RECEITA
+}
+
+enum RECORRENCIA {
+  DIARIA
+  SEMANAL
+  MENSAL
+  BIMESTRAL
+  TRIMESTRAL
+  SEMESTRAL
+  ANUAL
+}
+
+model Financeiro {
+  id           Int             @id @default(autoincrement())
+  nome         String
+  valor        Float
+  recorrencia  RECORRENCIA
+  tipo         TIPO_FINANCEIRO
+  observacao   String?
+  data         DateTime        @default(now())
+  usuario      Usuario         @relation(fields: [usuarioId], references: [id])
+  categoria    Categoria       @relation(fields: [categoriaId], references: [id])
+  criadoEm     DateTime        @default(now())
+  atualizadoEm DateTime        @updatedAt
+  usuarioId    Int
+  categoriaId  Int
+}
+
+model Categoria {
+  id           Int             @id @default(autoincrement())
+  nome         String
+  tipo         TIPO_FINANCEIRO
+  observacao   String?
+  usuario      Usuario         @relation(fields: [usuarioId], references: [id])
+  criadoEm     DateTime        @default(now())
+  atualizadoEm DateTime        @updatedAt
+  usuarioId    Int
+  Financeiro   Financeiro[]
+}
