@@ -2,123 +2,235 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { PiHouse, PiPawPrint } from "react-icons/pi";
+import { useEffect, useState } from "react";
+import { PiCaretDoubleLeft } from "react-icons/pi";
+
+import { outrosLinks, sidebarLinks } from "@/utils/sidebar-links";
+import { ChevronDown } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "./ui/accordion";
+import { Button } from "./ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 import { Separator } from "./ui/separator";
 
-export default function Sidebar() {
-  const pathname = usePathname();
+type SidebarItem = {
+  name: string;
+  href: string;
+  icon: React.ElementType;
+  type: "single" | "dropdown";
+  children?: Omit<SidebarItem, "type" | "children">[];
+};
+
+type SidebarSection = {
+  title: string;
+  items: SidebarItem[];
+};
+
+type SidebarItemsProps = {
+  items: SidebarItem[];
+  open: boolean;
+  activeItems: Record<string, boolean>;
+  pathname: string;
+};
+function SidebarItems({
+  items,
+  open,
+  activeItems,
+  pathname,
+}: SidebarItemsProps) {
   return (
     <>
-      <nav className="w-1/6 h-full p-6 bg-neutral-900 rounded-xl border-r border-black/10 flex-col justify-start items-start gap-6 inline-flex">
-        <div className="self-stretch justify-between items-center inline-flex">
-          <div className="text-[#ff8201] text-2xl font-bold ">Safira</div>
-          <div className="p-1.5 bg-neutral-800 rounded-lg justify-start items-start gap-2 flex">
-            <div className="w-4 h-4 relative" />
-          </div>
-        </div>
-        <Separator className="bg-neutral-700" />
-        <div className="flex-col gap-2 flex w-full">
-          <div className="text-neutral-500 text-xs font-medium uppercase leading-3 tracking-wide mb-2">
-            PRINCIPAL
-          </div>
-
-          <Link
-            href="/"
-            className={`${
-              pathname === "/"
-                ? "bg-neutral-700"
-                : "hover:bg-neutral-800 transition-all duration-200 ease-in-out "
-            } p-3 rounded-lg items-center justify-start gap-2 flex`}
-          >
-            <PiHouse
-              size={22}
-              className={pathname === "/" ? "text-primary" : "text-white "}
-            />
-            <span className="grow shrink basis-0 text-neutral-100 text-base font-medium  leading-tight text-start">
-              Início
-            </span>
-          </Link>
-          <div className="w-full">
+      {items.map((item) => (
+        <div key={item.href}>
+          {item.type === "single" ? (
             <Link
-              href="/controle-de-animais/animais"
+              href={item.href}
               className={`${
-                pathname === "/controle-de-animais/animais"
+                pathname === item.href
                   ? "bg-neutral-700"
-                  : "hover:bg-neutral-800"
-              } px-3 py-2.5 rounded-lg items-center justify-start gap-2 inline-flex w-full`}
+                  : "hover:bg-neutral-800 transition-all duration-200 ease-in-out"
+              } ${
+                open ? "p-3 justify-start" : "p-2 justify-center"
+              } rounded-lg items-center gap-2.5 flex`}
             >
-              <PiPawPrint
+              <item.icon
                 size={22}
-                className={
-                  pathname === "/controle-de-animais/animais"
-                    ? "text-primary"
-                    : "text-white "
-                }
+                className={`${
+                  pathname === item.href ? "text-primary" : "text-white"
+                }`}
               />
-              <span className="grow shrink basis-0 text-neutral-100 text-base font-medium  leading-tight text-start">
-                Controle de animais
-              </span>
+              {open && (
+                <span className="grow shrink basis-0 text-neutral-100 text-base font-medium leading-tight text-start">
+                  {item.name}
+                </span>
+              )}
             </Link>
-          </div>
-          <div className="self-stretch h-[168px] flex-col justify-start items-end gap-4 flex">
-            <div className="self-stretch px-3 py-2.5 bg-neutral-700 rounded-lg justify-start items-center gap-2 inline-flex">
-              <div className="w-[18px] h-[18px] relative" />
-              <div className="grow shrink basis-0 text-neutral-50 text-sm font-medium  leading-tight">
-                Controle de animais
-              </div>
-              <div className="w-3.5 h-3.5 relative origin-top-left -rotate-180" />
-            </div>
-            <div className="h-28 flex-col justify-start items-start gap-2 flex">
-              <div className="w-[172px] px-3 py-2 bg-neutral-700 rounded-lg justify-start items-center gap-3 inline-flex">
-                <div className="w-[13px] h-2 rounded-bl-lg border-l-2 border-b-2 border-neutral-700" />
-                <div className="grow shrink basis-0 text-neutral-100 text-sm font-semibold  leading-none">
-                  Animais
-                </div>
-              </div>
-              <div className="w-0.5 h-[91.13px] bg-neutral-700" />
-              <div className="w-[172px] px-3 py-2 rounded-lg justify-start items-center gap-3 inline-flex">
-                <div className="w-[13px] h-2 rounded-bl-lg border-l-2 border-b-2 border-neutral-700" />
-                <div className="grow shrink basis-0 text-neutral-100 text-sm font-medium  leading-none">
-                  Tutores
-                </div>
-              </div>
-              <div className="w-[172px] px-3 py-2 rounded-lg justify-start items-center gap-3 inline-flex">
-                <div className="w-[13px] h-2 rounded-bl-lg border-l-2 border-b-2 border-neutral-700" />
-                <div className="grow shrink basis-0 text-neutral-100 text-sm font-medium  leading-none">
-                  Vacinas
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="self-stretch px-3 py-2.5 rounded-lg justify-start items-center gap-2 inline-flex">
-            <div className="w-[18px] h-[18px] relative" />
-            <div className="grow shrink basis-0 text-neutral-100 text-sm font-medium  leading-tight">
-              Financeiro
-            </div>
-            <div className="w-3.5 h-3.5 relative" />
-          </div>
+          ) : (
+            <>
+              {open ? (
+                <Accordion type="single" collapsible>
+                  <AccordionItem value="item-1">
+                    <AccordionTrigger
+                      className={`${
+                        activeItems[item.href]
+                          ? "bg-neutral-700"
+                          : "hover:bg-neutral-800 transition-all duration-200 ease-in-out"
+                      } ${
+                        open ? "p-3 justify-start" : "p-2 justify-center"
+                      } rounded-lg items-center gap-2.5 text-white flex flex-row`}
+                    >
+                      <item.icon
+                        size={22}
+                        className={
+                          activeItems[item.href] ? "text-primary" : "text-white"
+                        }
+                      />
+                      {open && (
+                        <>
+                          <span className="w-full grow shrink basis-0 text-neutral-100 text-base font-medium leading-tight text-start">
+                            {item.name}
+                          </span>
+                          <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200 [&[data-state=open]>svg]:rotate-180" />
+                        </>
+                      )}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-white pl-8 py-3">
+                      <ul className="flex flex-col gap-2">
+                        {item.children?.map((child) => (
+                          <li key={child.href}>
+                            <Link
+                              href={child.href}
+                              className={`${
+                                pathname === child.href
+                                  ? "bg-neutral-700"
+                                  : "hover:bg-neutral-800 transition-all duration-200 ease-in-out"
+                              } px-4 py-2 rounded-lg items-center gap-2.5 text-white flex flex-row text-base`}
+                            >
+                              {child.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </AccordionContent>
+                  </AccordionItem>
+                </Accordion>
+              ) : (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      className={`${
+                        activeItems[item.href]
+                          ? "bg-neutral-700"
+                          : "hover:bg-neutral-800 transition-all duration-200 ease-in-out"
+                      } ${
+                        open ? "p-3 justify-start" : "p-2 justify-center"
+                      } rounded-lg items-center gap-2.5 text-white flex flex-row w-full`}
+                    >
+                      <item.icon
+                        size={22}
+                        className={
+                          activeItems[item.href] ? "text-primary" : "text-white"
+                        }
+                      />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-64 bg-neutral-900 border-neutral-800">
+                    <ul className="flex flex-col gap-2 p-2">
+                      {item.children?.map((child) => (
+                        <li key={child.href}>
+                          <Link
+                            href={child.href}
+                            className="px-4 py-2 rounded-lg items-center gap-2.5 text-white flex flex-row text-base hover:bg-neutral-800 transition-all duration-200 ease-in-out"
+                          >
+                            {child.name}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
+            </>
+          )}
         </div>
-        <div className="self-stretch h-0.5 bg-neutral-700 rounded-sm" />
-        <div className="self-stretch grow shrink basis-0 flex-col justify-start items-start gap-2 flex">
-          <div className="self-stretch px-3 justify-start items-start gap-2 inline-flex">
-            <div className="text-neutral-300 text-[10px] font-medium  uppercase leading-3 tracking-wide">
-              OUTROS
-            </div>
-          </div>
-          <div className="self-stretch px-3 py-2.5 rounded-lg justify-start items-center gap-2 inline-flex">
-            <div className="w-[18px] h-[18px] relative" />
-            <div className="grow shrink basis-0 text-neutral-100 text-sm font-medium  leading-tight">
-              Configurações
-            </div>
-            <div className="w-3.5 h-3.5 relative" />
-          </div>
-          <div className="self-stretch px-3 py-2.5 rounded-lg justify-start items-center gap-3 inline-flex">
-            <div className="w-[18px] h-[18px] relative" />
-            <div className="grow shrink basis-0 text-neutral-200 text-sm font-medium  leading-tight">
-              Ajuda
-            </div>
-          </div>
+      ))}
+    </>
+  );
+}
+export default function Sidebar() {
+  const [open, setOpen] = useState(true);
+  const pathname = usePathname();
+
+  const [activeItems, setActiveItems] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    const newActiveItems: Record<string, boolean> = {};
+    sidebarLinks.forEach((item) => {
+      if (item.type === "dropdown") {
+        const isActive =
+          item.children?.some((child) => pathname.startsWith(child.href)) ||
+          false;
+        newActiveItems[item.href] = isActive;
+      }
+    });
+    setActiveItems(newActiveItems);
+  }, [pathname]);
+
+  const allSections: SidebarSection[] = [
+    { title: "PRINCIPAL", items: sidebarLinks },
+    { title: "OUTROS", items: outrosLinks },
+  ];
+
+  return (
+    <>
+      <nav
+        className={`${
+          open
+            ? "w-1/6 p-6 justify-start items-start"
+            : "w-20 px-4 py-6 justify-center items-center"
+        } h-full bg-neutral-900 rounded-xl border-r border-black/10 flex-col inline-flex gap-6`}
+      >
+        <div className="self-stretch justify-between items-center inline-flex">
+          {open ? (
+            <div className="text-[#ff8201] text-2xl font-bold">Safira</div>
+          ) : null}
+          <button
+            className="p-1.5 bg-neutral-800 rounded-lg justify-center items-start gap-2 flex "
+            onClick={() => setOpen(!open)}
+          >
+            <PiCaretDoubleLeft
+              size={22}
+              className={`${
+                open ? "rotate-180" : ""
+              } text-white transition duration-300`}
+            />
+          </button>
         </div>
+        <Separator className="bg-neutral-700 mb-2" />
+        {allSections.map((section, index) => (
+          <div key={section.title} className="flex-col gap-3 flex w-full">
+            {index > 0 && <Separator className="bg-neutral-700 mb-3" />}
+            {open && (
+              <div className="text-neutral-500 text-xs font-medium uppercase leading-3 tracking-wide mb-2">
+                {section.title}
+              </div>
+            )}
+            <SidebarItems
+              items={section.items}
+              open={open}
+              activeItems={activeItems}
+              pathname={pathname}
+            />
+          </div>
+        ))}
       </nav>
     </>
   );
