@@ -85,7 +85,7 @@ function SidebarItems({
                           : "hover:bg-neutral-800 transition-all duration-200 ease-in-out"
                       } ${
                         open ? "p-3 justify-start" : "p-2 justify-center"
-                      } rounded-lg items-center gap-2.5 text-white flex flex-row`}
+                      } rounded-lg items-center gap-2.5 text-white flex flex-row text-sm lg:text-base `}
                     >
                       <item.icon
                         size={22}
@@ -112,7 +112,7 @@ function SidebarItems({
                                 pathname === child.href
                                   ? "bg-neutral-700"
                                   : "hover:bg-neutral-800 transition-all duration-200 ease-in-out"
-                              } px-4 py-2 rounded-lg items-center gap-2.5 text-white flex flex-row text-base`}
+                              } px-4 py-2 rounded-lg items-center gap-2.5 text-white flex flex-row text-sm lg:text-base`}
                             >
                               {child.name}
                             </Link>
@@ -189,12 +189,32 @@ export default function Sidebar() {
     { title: "OUTROS", items: outrosLinks },
   ];
 
+  const [isMobile, setIsMobile] = useState(false);
+  console.log(isMobile);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setOpen(false);
+        setIsMobile(true);
+      } else {
+        setOpen(true);
+        setIsMobile(false);
+      }
+    };
+
+    handleResize(); // Verifica no primeiro render
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <>
       <nav
         className={`${
           open
-            ? "w-1/6 p-6 justify-start items-start"
+            ? "w-2/3 sm:w-1/5 xl:w-1/6 p-3 2xl:p-6 justify-start items-start"
             : "w-20 px-4 py-6 justify-center items-center"
         } h-full bg-neutral-900 rounded-xl border-r border-black/10 flex-col inline-flex gap-6`}
       >
@@ -203,7 +223,9 @@ export default function Sidebar() {
             <div className="text-[#ff8201] text-2xl font-bold">Safira</div>
           ) : null}
           <button
-            className="p-1.5 bg-neutral-800 rounded-lg justify-center items-start gap-2 flex "
+            className={` ${
+              open ? "p-1.5" : "flex-grow shrink-0 p-2"
+            } bg-neutral-800 rounded-lg justify-center items-start gap-2 flex `}
             onClick={() => setOpen(!open)}
           >
             <PiCaretDoubleLeft
