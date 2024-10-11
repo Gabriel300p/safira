@@ -1,7 +1,12 @@
+import Topbar from "@/components/topbar";
+
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center py-2">
-      Olá mundo
-    </div>
+    <>
+      <Topbar title="Início" />
+      <div className="flex flex-col items-center justify-center py-2">
+        Olá mundo
+      </div>
+    </>
   );
 }

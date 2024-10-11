@@ -1,4 +1,6 @@
 import Sidebar from "@/components/sidebar";
+
+import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -17,11 +19,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <body
-        className={`${inter.className} antialiased bg-neutral-900 p-3 flex`}
-      >
+      <body className={`${inter.className} antialiased bg-neutral-900 flex`}>
         <Sidebar />
-        <div className="bg-neutral-100 rounded-xl flex-1">{children}</div>
+        <ReactQueryProvider>
+          <div className="bg-neutral-100 rounded-xl flex-1 flex flex-col">
+            {children}
+          </div>
+        </ReactQueryProvider>
       </body>
     </html>
   );

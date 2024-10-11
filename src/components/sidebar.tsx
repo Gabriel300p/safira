@@ -1,12 +1,11 @@
 "use client";
 
+import { outrosLinks, sidebarLinks } from "@/utils/sidebar-links";
+import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { PiCaretDoubleLeft } from "react-icons/pi";
-
-import { outrosLinks, sidebarLinks } from "@/utils/sidebar-links";
-import { ChevronDown } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -215,7 +214,7 @@ export default function Sidebar() {
         className={`${
           open
             ? "w-2/3 sm:w-1/5 xl:w-1/6 p-3 2xl:p-6 justify-start items-start"
-            : "w-20 px-4 py-6 justify-center items-center"
+            : "w-20 px-4 py-2 sm:py-6 justify-center items-center"
         } h-full bg-neutral-900 rounded-xl border-r border-black/10 flex-col inline-flex gap-6`}
       >
         <div className="self-stretch justify-between items-center inline-flex">
