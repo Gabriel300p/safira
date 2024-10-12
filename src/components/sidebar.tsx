@@ -213,8 +213,8 @@ export default function Sidebar() {
       <nav
         className={`${
           open
-            ? "w-2/3 sm:w-1/5 xl:w-1/6 p-3 2xl:p-6 justify-start items-start"
-            : "w-20 px-4 py-2 sm:py-6 justify-center items-center"
+            ? "w-2/3 sm:w-1/5 xl:w-1/6 px-3 py-5 2xl:p-6 justify-start items-start"
+            : "w-16 px-2 py-5 sm:py-6 sm:px-3 lg:w-20 justify-center items-center"
         } h-full bg-neutral-900 rounded-xl border-r border-black/10 flex-col inline-flex gap-6`}
       >
         <div className="self-stretch justify-between items-center inline-flex">

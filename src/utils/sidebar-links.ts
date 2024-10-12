@@ -51,7 +51,7 @@ const sidebarLinks: SectionItem[] = [
     ],
   },
   {
-    name: "Financeiro",
+    name: "Controle financeiro",
     href: "/controle-financeiro",
     icon: PiCoins,
     type: "dropdown",

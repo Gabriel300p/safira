@@ -1,5 +1,4 @@
 import Sidebar from "@/components/sidebar";
-
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
