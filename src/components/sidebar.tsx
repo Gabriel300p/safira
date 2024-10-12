@@ -125,6 +125,7 @@ function SidebarItems({
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button
+                      variant="ghost"
                       className={`${
                         activeItems[item.href]
                           ? "bg-neutral-700"
@@ -193,7 +194,7 @@ export default function Sidebar() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth <= 768) {
+      if (window.innerWidth <= 1200) {
         setOpen(false);
         setIsMobile(true);
       } else {

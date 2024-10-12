@@ -58,13 +58,11 @@ model Animal {
   imagem       String?
   raca         Raca           @relation(fields: [racaId], references: [id])
   usuario      Usuario        @relation(fields: [usuarioId], references: [id])
-  vacina       Vacina         @relation(fields: [vacinaId], references: [id])
   tutor        Tutor          @relation(fields: [tutorId], references: [id])
   criadoEm     DateTime       @default(now())
-  atualizadoEm DateTime       @updatedAt
+  atualizadoEm DateTime       @default(now()) @updatedAt
   racaId       Int
   usuarioId    Int
-  vacinaId     Int
   tutorId      Int
   VacinaAnimal VacinaAnimal[]
 }
@@ -78,8 +76,7 @@ model Vacina {
   observacao   String?
   usuario      Usuario        @relation(fields: [usuarioId], references: [id])
   criadoEm     DateTime       @default(now())
-  atualizadoEm DateTime       @updatedAt
-  Animal       Animal[]
+  atualizadoEm DateTime       @default(now()) @updatedAt
   usuarioId    Int
   VacinaAnimal VacinaAnimal[]
 }
@@ -89,7 +86,7 @@ model VacinaAnimal {
   vacina       Vacina   @relation(fields: [vacinaId], references: [id])
   animal       Animal   @relation(fields: [animalId], references: [id])
   criadoEm     DateTime @default(now())
-  atualizadoEm DateTime @updatedAt
+  atualizadoEm DateTime @default(now()) @updatedAt
   vacinaId     Int
   animalId     Int
 }
@@ -100,7 +97,7 @@ model Raca {
   observacao   String?
   usuario      Usuario  @relation(fields: [usuarioId], references: [id])
   criadoEm     DateTime @default(now())
-  atualizadoEm DateTime @updatedAt
+  atualizadoEm DateTime @default(now()) @updatedAt
   Animal       Animal[]
   usuarioId    Int
 }
@@ -119,7 +116,7 @@ model Tutor {
   observacao   String?
   usuario      Usuario  @relation(fields: [usuarioId], references: [id])
   criadoEm     DateTime @default(now())
-  atualizadoEm DateTime @updatedAt
+  atualizadoEm DateTime @default(now()) @updatedAt
   usuarioId    Int
   Animal       Animal[]
 }
@@ -152,7 +149,7 @@ model Financeiro {
   usuario      Usuario         @relation(fields: [usuarioId], references: [id])
   categoria    Categoria       @relation(fields: [categoriaId], references: [id])
   criadoEm     DateTime        @default(now())
-  atualizadoEm DateTime        @updatedAt
+  atualizadoEm DateTime        @default(now()) @updatedAt
   usuarioId    Int
   categoriaId  Int
 }
@@ -164,7 +161,7 @@ model Categoria {
   observacao   String?
   usuario      Usuario         @relation(fields: [usuarioId], references: [id])
   criadoEm     DateTime        @default(now())
-  atualizadoEm DateTime        @updatedAt
+  atualizadoEm DateTime        @default(now()) @updatedAt
   usuarioId    Int
   Financeiro   Financeiro[]
 }

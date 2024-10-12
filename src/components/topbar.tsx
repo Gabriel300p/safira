@@ -58,7 +58,7 @@ export default function Topbar({ title, subtitle }: Links) {
   }
 
   return (
-    <div className="px-6 py-5 bg-white justify-between items-center inline-flex rounded-tl-xl rounded-tr-xl">
+    <div className="px-6 py-5 bg-white justify-between items-center inline-flex rounded-tl-xl rounded-tr-xl w-full">
       <div className="justify-start items-center gap-2 flex">
         <div className="justify-start items-center gap-2 hidden md:flex">
           {subtitle}
