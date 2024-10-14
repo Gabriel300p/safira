@@ -1,3 +1,5 @@
+"use client";
+
 import Topbar from "@/components/topbar";
 import { AnimalProvider } from "@/context/animal-context";
 import { PiPawPrint } from "react-icons/pi";

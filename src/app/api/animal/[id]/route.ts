@@ -1,6 +1,17 @@
 import { db } from "@/lib/db";
-export async function GET() {
-  const user = await db.animal.findMany({
+import { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
+
+export async function GET(req: NextApiRequest, res: NextApiResponse) {
+  const { id } = req.query;
+
+  const idNumber = Number(id);
+  console.log(id);
+
+  const animal = await db.animal.findFirst({
+    where: {
+      id: idNumber,
+    },
     select: {
       id: true,
       nome: true,
@@ -29,9 +40,14 @@ export async function GET() {
       criadoEm: true,
       atualizadoEm: true,
     },
-    orderBy: {
-      nome: "asc",
-    },
   });
-  return new Response(JSON.stringify(user), { status: 200 });
+
+  if (!animal) {
+    return NextResponse.json(
+      { error: "Animal não encontrado" },
+      { status: 404 }
+    );
+  }
+
+  return NextResponse.json(animal);
 }

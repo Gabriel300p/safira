@@ -2,19 +2,21 @@ import axios from "axios";
 
 // Defina a interface para o tipo Animal
 export interface Animal {
-  id: string;
+  id: number;
   nome: string;
   sexo: "MACHO" | "FÊMEA" | "INDEFINIDO";
   porte: "PEQUENO" | "MÉDIO" | "GRANDE";
+  tipo: "CACHORRO" | "GATO";
   castrado: boolean;
   vacinado: boolean;
   adestrado: boolean;
   obito: boolean;
   microchip: boolean;
   adotado: boolean;
-  racaId: number;
+  dataNascimento: Date;
+  raca: { nome: string } | null;
   userId: number;
-  tutorId: number;
+  tutor: { nome: string } | null;
   observacao: string;
   imagem: string;
   created_at: string;

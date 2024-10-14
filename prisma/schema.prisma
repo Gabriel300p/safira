@@ -14,7 +14,7 @@ model Usuario {
   email        String       @unique
   senha        String
   criadoEm     DateTime     @default(now())
-  atualizadoEm DateTime     @updatedAt
+  atualizadoEm DateTime     @default(now()) @updatedAt
   Animal       Animal[]
   Tutor        Tutor[]
   Raca         Raca[]
@@ -43,36 +43,37 @@ enum TIPO_ANIMAL {
 }
 
 model Animal {
-  id           Int            @id @default(autoincrement())
-  nome         String
-  castrado     Boolean
-  vacinado     Boolean
-  adestrado    Boolean
-  microchip    Boolean
-  obito        Boolean
-  adotado      Boolean
-  porte        PORTE
-  sexo         SEXO
-  tipo         TIPO_ANIMAL
-  observacao   String?
-  imagem       String?
-  raca         Raca           @relation(fields: [racaId], references: [id])
-  usuario      Usuario        @relation(fields: [usuarioId], references: [id])
-  tutor        Tutor          @relation(fields: [tutorId], references: [id])
-  criadoEm     DateTime       @default(now())
-  atualizadoEm DateTime       @default(now()) @updatedAt
-  racaId       Int
-  usuarioId    Int
-  tutorId      Int
-  VacinaAnimal VacinaAnimal[]
+  id             Int            @id @default(autoincrement())
+  nome           String
+  castrado       Boolean
+  vacinado       Boolean
+  adestrado      Boolean
+  microchip      Boolean
+  obito          Boolean
+  adotado        Boolean
+  porte          PORTE
+  sexo           SEXO
+  tipo           TIPO_ANIMAL
+  observacao     String?
+  imagem         String?
+  dataNascimento DateTime?
+  raca           Raca           @relation(fields: [racaId], references: [id])
+  usuario        Usuario        @relation(fields: [usuarioId], references: [id])
+  tutor          Tutor          @relation(fields: [tutorId], references: [id])
+  criadoEm       DateTime       @default(now())
+  atualizadoEm   DateTime       @default(now()) @updatedAt
+  racaId         Int
+  usuarioId      Int
+  tutorId        Int
+  VacinaAnimal   VacinaAnimal[]
 }
 
 model Vacina {
   id           Int            @id @default(autoincrement())
   nome         String
   tipo         String?
-  ultima       DateTime
-  proxima      DateTime
+  ultima       DateTime?
+  proxima      DateTime?
   observacao   String?
   usuario      Usuario        @relation(fields: [usuarioId], references: [id])
   criadoEm     DateTime       @default(now())
@@ -106,13 +107,13 @@ model Tutor {
   id           Int      @id @default(autoincrement())
   nome         String
   email        String?
-  telefone     String
-  cep          String
-  numero       String
-  bairro       String
+  telefone     String?
+  cep          String?
+  numero       String?
+  bairro       String?
   complemento  String?
-  cidade       String
-  estado       String
+  cidade       String?
+  estado       String?
   observacao   String?
   usuario      Usuario  @relation(fields: [usuarioId], references: [id])
   criadoEm     DateTime @default(now())
