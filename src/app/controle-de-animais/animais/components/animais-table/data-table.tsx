@@ -14,7 +14,7 @@ import {
 } from "@tanstack/react-table";
 
 import { Filter } from "@/components/table/filter";
-import PaginationTable from "@/components/table/pagination";
+import PaginationTable from "@/components/table/paginationTable";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
