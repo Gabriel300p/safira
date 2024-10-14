@@ -17,3 +17,24 @@ body {
     --radius: 0.5rem;
   }
 }
+
+::selection {
+  color: white;
+  background: #ff8201;
+}
+
+@keyframes pulse-table {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pulse-table {
+  animation: pulse 0.5s ease;
+}

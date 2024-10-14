@@ -11,13 +11,26 @@ import {
 import { useToast } from "@/hooks/use-toast";
 
 import { useTutorContext } from "@/app/controle-de-animais/tutores/utils/tutor-context";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+} from "@/components/ui/alert-dialog";
+import { AlertDialogTitle } from "@radix-ui/react-alert-dialog";
 import { useState } from "react";
 import {
   PiDotsThreeBold,
   PiHandHeart,
+  PiHandHeartFill,
   PiHeartBreak,
+  PiHeartBreakFill,
   PiPencilSimpleLine,
   PiTrash,
+  PiTrashFill,
 } from "react-icons/pi";
 import { deleteAnimal, updateAnimal } from "../../utils/animal-functions";
 import { Animal } from "../../utils/schema";
@@ -167,25 +180,89 @@ export default function AnimalTableActions({
       </Dialog>
 
       {/* Diálogo de exclusão */}
-      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent>
-          <p>Tem certeza que deseja excluir o animal {animal.nome}?</p>
-          <div className="flex justify-end space-x-2 mt-4">
-            <Button
-              variant="outline"
-              onClick={() => setIsDeleteDialogOpen(false)}
+      <AlertDialog
+        open={isDeleteDialogOpen}
+        onOpenChange={setIsDeleteDialogOpen}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <div className="flex items-center gap-4 mb-2">
+              <div className="flex items-center justify-center p-4 rounded-full bg-red-100 w-fit">
+                <PiTrashFill className="h-7 w-7 text-red-600" />
+              </div>
+              <div className="flex flex-col gap-0.5">
+                <AlertDialogTitle className="text-lg font-semibold text-neutral-600">
+                  Tem certeza que deseja excluir?
+                </AlertDialogTitle>
+                <AlertDialogDescription className="font-normal text-neutral-600 text-sm leading-normal">
+                  Essa ação não pode ser desfeita. O animal {animal.nome} será
+                  removido do sistema.
+                </AlertDialogDescription>
+              </div>
+            </div>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-red-600 hover:bg-red-700"
+              onClick={handleDeleteAnimal}
             >
-              Cancelar
-            </Button>
-            <Button variant="destructive" onClick={handleDeleteAnimal}>
-              Excluir
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+              Excluir {animal.nome}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* Diálogo de adoção */}
-      <Dialog open={isAdoptDialogOpen} onOpenChange={setIsAdoptDialogOpen}>
+      <AlertDialog open={isAdoptDialogOpen} onOpenChange={setIsAdoptDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <div className="flex items-start gap-4 mb-2">
+              <div className="flex items-center justify-center p-4 rounded-full bg-emerald-100 w-fit">
+                <PiHandHeartFill className="h-7 w-7 text-emerald-600" />
+              </div>
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-0.5">
+                  <AlertDialogTitle className="text-lg font-semibold text-neutral-600">
+                    Você confirma a alteração?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription className="font-normal text-neutral-600 text-sm leading-normal">
+                    Você pode alterar os dados novamente indo em editar dados do
+                    animal {animal.nome}.
+                  </AlertDialogDescription>
+                </div>
+
+                <select
+                  id="tutor-select"
+                  className="flex py-2.5 px-2 w-full items-center justify-between rounded-md border border-neutral-200 bg-white  text-sm ring-offset-white placeholder:text-neutral-500 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1"
+                  value={selectedTutor || ""}
+                  onChange={(e) => setSelectedTutor(Number(e.target.value))}
+                >
+                  <option value="" disabled>
+                    Selecione um tutor
+                  </option>
+                  {tutors?.map((tutor) => (
+                    <option key={tutor.id} value={tutor.id}>
+                      {tutor.nome}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </AlertDialogHeader>
+
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-emerald-700 hover:bg-emerald-800"
+              onClick={handleAdoptAnimal}
+            >
+              Alterar status para adotado
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      {/* <Dialog open={isAdoptDialogOpen} onOpenChange={setIsAdoptDialogOpen}>
         <DialogContent>
           <p>Tem certeza que deseja alterar o status para adotado?</p>
           <label htmlFor="tutor-select" className="block mt-4">
@@ -216,23 +293,38 @@ export default function AnimalTableActions({
             <Button onClick={handleAdoptAnimal}>Confirmar</Button>
           </div>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
 
       {/* Diálogo de óbito */}
-      <Dialog open={isObitoDialogOpen} onOpenChange={setIsObitoDialogOpen}>
-        <DialogContent>
-          <p>Tem certeza que deseja alterar o status para óbito?</p>
-          <div className="flex justify-end space-x-2 mt-4">
-            <Button
-              variant="outline"
-              onClick={() => setIsObitoDialogOpen(false)}
+      <AlertDialog open={isObitoDialogOpen} onOpenChange={setIsObitoDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <div className="flex items-center gap-4 mb-2">
+              <div className="flex items-center justify-center p-4 rounded-full bg-neutral-100 w-fit">
+                <PiHeartBreakFill className="h-7 w-7 text-neutral-600" />
+              </div>
+              <div className="flex flex-col gap-0.5">
+                <AlertDialogTitle className="text-lg font-semibold text-neutral-600">
+                  Você confirma a alteração?
+                </AlertDialogTitle>
+                <AlertDialogDescription className="font-normal text-neutral-600 text-sm leading-normal">
+                  Você pode alterar os dados novamente indo em editar dados do
+                  animal {animal.nome}.
+                </AlertDialogDescription>
+              </div>
+            </div>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-neutral-700 hover:bg-neutral-800"
+              onClick={handleObitoAnimal}
             >
-              Cancelar
-            </Button>
-            <Button onClick={handleObitoAnimal}>Confirmar</Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+              Alterar status para óbito
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

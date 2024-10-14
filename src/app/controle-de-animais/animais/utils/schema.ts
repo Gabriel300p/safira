@@ -25,6 +25,7 @@ const animalSchema = z.object({
   tutor: z
     .object({
       nome: z.string(),
+      id: z.number(),
     })
     .nullable(),
   observacao: z.string().optional(),

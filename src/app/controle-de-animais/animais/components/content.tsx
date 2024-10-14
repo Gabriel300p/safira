@@ -4,7 +4,6 @@ import { useAnimalContext } from "@/app/controle-de-animais/animais/utils/animal
 import { buttonVariants } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
@@ -14,34 +13,14 @@ import {
 import { FC, useState } from "react";
 import { PiPlusCircleFill, PiQuestion } from "react-icons/pi";
 import AnimaisForm from "./animais-form";
+import AnimaisLoading from "./animais-loading";
 import { columns } from "./animais-table/columns";
 import { DataTable } from "./animais-table/data-table";
 
 const Content: FC = ({}) => {
   const { animals, isLoading, error, dataUpdatedAt } = useAnimalContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  if (isLoading)
-    return (
-      <div className="flex flex-col gap-8 w-full">
-        <div className="flex items-center gap-2 justify-between w-full">
-          <div className="items-center gap-8 hidden sm:flex">
-            <Skeleton className="h-12 w-48" />
-            <Separator orientation="vertical" className="bg-neutral-100 h-12" />
-            <Skeleton className="h-12 w-24" />
-            <Separator orientation="vertical" className="bg-neutral-100 h-12" />
-            <Skeleton className="h-12 w-24" />
-          </div>
-          <Skeleton className="h-12 w-44" />
-        </div>
-        <Separator className="bg-neutral-200 h-[1px]" />
-        <div className="flex items-center gap-2 justify-between w-full">
-          <div className="items-center gap-8 hidden sm:flex">
-            <Skeleton className="h-12 w-72" />
-          </div>
-          <Skeleton className="h-12 w-12" />
-        </div>
-      </div>
-    );
+  if (isLoading) return <AnimaisLoading />;
   if (error) return <div>Erro: {error.message}</div>;
 
   const adoptedAnimals = animals?.filter((animal) => animal.adotado) || [];
@@ -65,8 +44,14 @@ const Content: FC = ({}) => {
                   <TooltipTrigger>
                     <PiQuestion className="w-5 h-5 text-neutral-700" />
                   </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Adicionar explicação da tela</p>
+                  <TooltipContent className="w-96 text-center">
+                    <p>
+                      Aqui você vê uma lista de animais com informações como
+                      nome, raça, tipo, tutor, se foi adotado ou não, e idade.
+                      Você pode clicar nos títulos para organizar a lista, e
+                      também fazer ações como editar ou ver mais detalhes de
+                      cada animal.
+                    </p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>

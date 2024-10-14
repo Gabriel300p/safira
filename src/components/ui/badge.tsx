@@ -4,7 +4,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-full text-xs font-semibold transition-colors",
+  "inline-flex items-center rounded-full text-xs font-semibold transition-colors line-clamp-1 text-center truncate",
   {
     variants: {
       variant: {
@@ -42,7 +42,7 @@ function Badge({ className, variant = "default", ...props }: BadgeProps) {
       className={`${cn(
         badgeVariants({ variant }),
         className
-      )} flex items-center gap-1.5`}
+      )} flex items-center gap-1.5 `}
       {...props}
     >
       <div className={`w-1.5 h-1.5 rounded-full ${dotColor}`} />

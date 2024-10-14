@@ -8,7 +8,7 @@ import Content from "./components/content";
 
 export default function Animais() {
   return (
-    <div className="">
+    <div className="h-screen">
       <TutorProvider>
         <AnimalProvider>
           <Topbar
