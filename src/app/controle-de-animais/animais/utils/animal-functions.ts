@@ -1,25 +1,5 @@
 import axios from "axios";
-
-// Defina a interface para o tipo Animal
-export interface Animal {
-  id: string;
-  nome: string;
-  sexo: "MACHO" | "FÊMEA" | "INDEFINIDO";
-  porte: "PEQUENO" | "MÉDIO" | "GRANDE";
-  castrado: boolean;
-  vacinado: boolean;
-  adestrado: boolean;
-  obito: boolean;
-  microchip: boolean;
-  adotado: boolean;
-  racaId: number;
-  userId: number;
-  tutorId: number;
-  observacao: string;
-  imagem: string;
-  created_at: string;
-  updated_at: string;
-}
+import { Animal } from "./schema";
 
 // Função para buscar todos os animais
 const fetchAnimals = async (): Promise<Animal[]> => {
@@ -48,7 +28,7 @@ const createAnimal = async (
   animalData: Omit<Animal, "id">
 ): Promise<Animal> => {
   try {
-    const response = await axios.post<Animal>("/animal", animalData);
+    const response = await axios.post<Animal>("/api/animal", animalData);
     return response.data;
   } catch (error) {
     console.error("Erro ao criar animal:", error);
@@ -62,7 +42,10 @@ const updateAnimal = async (
   animalData: Partial<Animal>
 ): Promise<Animal> => {
   try {
-    const response = await axios.put<Animal>(`/animal/${id}`, animalData);
+    const response = await axios.put<Animal>(`/api/animal`, {
+      id,
+      ...animalData,
+    });
     return response.data;
   } catch (error) {
     console.error(`Erro ao atualizar animal com ID ${id}:`, error);
@@ -73,7 +56,9 @@ const updateAnimal = async (
 // Função para deletar um animal
 const deleteAnimal = async (id: number): Promise<void> => {
   try {
-    await axios.delete(`/animal/${id}`);
+    await axios.delete(`/api/animal`, {
+      data: { id },
+    });
   } catch (error) {
     console.error(`Erro ao deletar animal com ID ${id}:`, error);
     throw error;
