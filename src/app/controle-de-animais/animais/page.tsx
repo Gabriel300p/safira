@@ -1,7 +1,7 @@
 "use client";
 
+import { AnimalProvider } from "@/app/controle-de-animais/animais/components/animal-context";
 import Topbar from "@/components/topbar";
-import { AnimalProvider } from "@/context/animal-context";
 import { PiPawPrint } from "react-icons/pi";
 import Headbar from "./components/headbar";
 

@@ -8,14 +8,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Animal } from "@/functions/animal-functions";
 import { MoreHorizontal } from "lucide-react";
 import { useState } from "react";
-import AnimaisForm, { AnimalFormData } from "../animais-form";
+import AnimaisForm from "../animais-form";
+import { Animal } from "../schema";
 
 interface AnimalTableActionsProps {
   animal: Animal;
-  onUpdateAnimal: (updatedAnimal: AnimalFormData) => Promise<void>;
+  onUpdateAnimal: (updatedAnimal: Animal) => Promise<void>;
 }
 
 export default function AnimalTableActions({

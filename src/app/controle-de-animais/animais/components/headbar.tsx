@@ -1,5 +1,6 @@
 "use client";
 
+import { useAnimalContext } from "@/app/controle-de-animais/animais/components/animal-context";
 import { buttonVariants } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
@@ -10,7 +11,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { useAnimalContext } from "@/context/animal-context";
 import { FC, useState } from "react";
 import { PiPlusCircleFill, PiQuestion } from "react-icons/pi";
 import AnimaisForm from "./animais-form";

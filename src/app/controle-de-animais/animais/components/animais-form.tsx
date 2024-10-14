@@ -1,3 +1,4 @@
+import { updateAnimal } from "@/app/controle-de-animais/animais/components/animal-functions";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DialogTitle } from "@/components/ui/dialog";
@@ -19,29 +20,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Animal, updateAnimal } from "@/functions/animal-functions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
-
-const animalSchema = z.object({
-  id: z.number().optional(),
-  nome: z.string().min(1, "Nome é obrigatório"),
-  tipo: z.enum(["CACHORRO", "GATO"]),
-  sexo: z.enum(["MACHO", "FÊMEA", "INDEFINIDO"]),
-  porte: z.enum(["PEQUENO", "MÉDIO", "GRANDE"]),
-  castrado: z.boolean(),
-  vacinado: z.boolean(),
-  adestrado: z.boolean(),
-  obito: z.boolean(),
-  microchip: z.boolean(),
-  adotado: z.boolean(),
-  dataNascimento: z.date(),
-  racaId: z.number().int().positive("ID da raça deve ser um número positivo"),
-  observacao: z.string().optional(),
-});
-
-export type AnimalFormData = z.infer<typeof animalSchema>;
+import { Animal, animalSchema } from "./schema";
 
 interface AnimaisFormProps {
   animalId?: number;
@@ -54,7 +35,7 @@ export default function AnimaisForm({
   onClose,
   animalDataClick,
 }: AnimaisFormProps) {
-  const form = useForm<AnimalFormData>({
+  const form = useForm<Animal>({
     resolver: zodResolver(animalSchema),
     defaultValues: {
       id: animalDataClick?.id,
@@ -69,7 +50,7 @@ export default function AnimaisForm({
       microchip: animalDataClick?.microchip || false,
       adotado: animalDataClick?.adotado || false,
       dataNascimento: animalDataClick?.dataNascimento || new Date(),
-      racaId: animalDataClick?.raca.id || 0,
+      racaId: animalDataClick?.raca?.id || 0,
       observacao: animalDataClick?.observacao || "",
     },
   });
@@ -175,7 +156,7 @@ export default function AnimaisForm({
           )}
         />
 
-        <FormField
+        {/* <FormField
           control={form.control}
           name="dataNascimento"
           render={({ field }) => (
@@ -187,7 +168,7 @@ export default function AnimaisForm({
               <FormMessage />
             </FormItem>
           )}
-        />
+        /> */}
 
         <FormField
           control={form.control}

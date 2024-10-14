@@ -3,9 +3,9 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Animal } from "@/functions/animal-functions";
 import { ColumnDef } from "@tanstack/react-table";
 import { PiCaretUpDown, PiCat, PiDog } from "react-icons/pi";
+import { Animal } from "../schema";
 import AnimalTableActions from "./actions";
 
 export const columns: ColumnDef<Animal>[] = [

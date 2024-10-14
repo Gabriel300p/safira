@@ -1,29 +1,6 @@
 import axios from "axios";
+import { Animal } from "./schema";
 
-// Defina a interface para o tipo Animal
-export interface Animal {
-  id: number;
-  nome: string;
-  sexo: "MACHO" | "FÊMEA" | "INDEFINIDO";
-  porte: "PEQUENO" | "MÉDIO" | "GRANDE";
-  tipo: "CACHORRO" | "GATO";
-  castrado: boolean;
-  vacinado: boolean;
-  adestrado: boolean;
-  obito: boolean;
-  microchip: boolean;
-  adotado: boolean;
-  dataNascimento: Date;
-  raca: { nome: string } | null;
-  userId: number;
-  tutor: { nome: string } | null;
-  observacao: string;
-  imagem: string;
-  created_at: string;
-  updated_at: string;
-}
-
-// Função para buscar todos os animais
 const fetchAnimals = async (): Promise<Animal[]> => {
   try {
     const response = await axios.get<Animal[]>("/api/animal");

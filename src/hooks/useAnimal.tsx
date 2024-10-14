@@ -1,4 +1,7 @@
-import { Animal, fetchAnimals } from "@/functions/animal-functions";
+import {
+  Animal,
+  fetchAnimals,
+} from "@/app/controle-de-animais/animais/components/animal-functions";
 import { useQuery } from "@tanstack/react-query";
 
 export function useAnimals() {
