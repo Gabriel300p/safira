@@ -1,4 +1,4 @@
-import { updateAnimal } from "@/app/controle-de-animais/animais/components/animal-functions";
+import { updateAnimal } from "@/app/controle-de-animais/animais/utils/animal-functions";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DialogTitle } from "@/components/ui/dialog";
@@ -22,7 +22,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Animal, animalSchema } from "./schema";
+import { Animal, animalSchema } from "../utils/schema";
 
 interface AnimaisFormProps {
   animalId?: number;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useAnimalContext } from "@/app/controle-de-animais/animais/components/animal-context";
+import { useAnimalContext } from "@/app/controle-de-animais/animais/utils/animal-context";
 import { buttonVariants } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";

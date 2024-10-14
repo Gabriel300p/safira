@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import { useState } from "react";
+import { Animal } from "../../utils/schema";
 import AnimaisForm from "../animais-form";
-import { Animal } from "../schema";
 
 interface AnimalTableActionsProps {
   animal: Animal;

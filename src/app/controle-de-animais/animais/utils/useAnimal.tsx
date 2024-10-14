@@ -1,8 +1,6 @@
-import {
-  Animal,
-  fetchAnimals,
-} from "@/app/controle-de-animais/animais/components/animal-functions";
+import { fetchAnimals } from "@/app/controle-de-animais/animais/utils/animal-functions";
 import { useQuery } from "@tanstack/react-query";
+import { Animal } from "./schema";
 
 export function useAnimals() {
   return useQuery<Animal[], Error>({

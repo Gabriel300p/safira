@@ -1,6 +1,6 @@
 "use client";
 
-import { fetchAnimals } from "@/app/controle-de-animais/animais/components/animal-functions";
+import { fetchAnimals } from "@/app/controle-de-animais/animais/utils/animal-functions";
 import { useQuery } from "@tanstack/react-query";
 import React, { createContext, ReactNode, useContext } from "react";
 import { Animal } from "./schema";

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Animal } from "./schema";
 
+// Função para buscar todos os animais
 const fetchAnimals = async (): Promise<Animal[]> => {
   try {
     const response = await axios.get<Animal[]>("/api/animal");
