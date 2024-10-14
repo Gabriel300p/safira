@@ -28,7 +28,7 @@ const createAnimal = async (
   animalData: Omit<Animal, "id">
 ): Promise<Animal> => {
   try {
-    const response = await axios.post<Animal>("/animal", animalData);
+    const response = await axios.post<Animal>("/api/animal", animalData);
     return response.data;
   } catch (error) {
     console.error("Erro ao criar animal:", error);
@@ -56,7 +56,9 @@ const updateAnimal = async (
 // Função para deletar um animal
 const deleteAnimal = async (id: number): Promise<void> => {
   try {
-    await axios.delete(`/animal/${id}`);
+    await axios.delete(`/api/animal`, {
+      data: { id },
+    });
   } catch (error) {
     console.error(`Erro ao deletar animal com ID ${id}:`, error);
     throw error;

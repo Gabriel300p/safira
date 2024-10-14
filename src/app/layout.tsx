@@ -20,8 +20,8 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body className={`${inter.className} antialiased bg-neutral-900 flex`}>
-        <Sidebar />
         <ReactQueryProvider>
+          <Sidebar />
           <div className="bg-neutral-100 rounded-xl flex-1 flex flex-col">
             {children}
           </div>

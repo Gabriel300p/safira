@@ -72,3 +72,20 @@ export async function PUT(req: Request) {
     );
   }
 }
+
+export async function DELETE(req: Request) {
+  try {
+    const body = await req.json();
+    const user = await db.animal.delete({
+      where: {
+        id: body.id,
+      },
+    });
+    return new Response(JSON.stringify(user), { status: 200 });
+  } catch (error) {
+    console.error("Erro ao excluir animal:", error);
+    return new Response(JSON.stringify({ error: "Erro ao excluir animal." }), {
+      status: 500,
+    });
+  }
+}

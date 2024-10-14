@@ -194,7 +194,7 @@ export default function Sidebar() {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth <= 1200) {
+      if (window.innerWidth <= 1440) {
         setOpen(false);
         setIsMobile(true);
       } else {
@@ -213,7 +213,9 @@ export default function Sidebar() {
     <>
       <nav
         className={`${
-          open
+          pathname === "/auth/login"
+            ? "hidden"
+            : open
             ? "w-2/3 sm:w-1/5 xl:w-1/6 px-3 py-5 2xl:p-6 justify-start items-start"
             : "w-16 px-2 py-5 sm:py-6 sm:px-3 lg:w-20 justify-center items-center"
         } h-full bg-neutral-900 rounded-xl border-r border-black/10 flex-col inline-flex gap-6`}
@@ -231,7 +233,7 @@ export default function Sidebar() {
             <PiCaretDoubleLeft
               size={22}
               className={`${
-                open ? "rotate-180" : ""
+                open ? "" : "rotate-180"
               } text-white transition duration-300`}
             />
           </button>
