@@ -167,11 +167,22 @@ export const columns: ColumnDef<Animal>[] = [
       const hoje = new Date();
       const idade = hoje.getFullYear() - dataNascimento.getFullYear();
       const obito = row.original.obito;
+      const dataNascimentoNull = row.original.dataNascimento === null;
 
       if (obito) {
         return (
           <div className="flex items-center justify-center">
             <Badge variant="gray">Óbito</Badge>
+          </div>
+        );
+      }
+
+      if (dataNascimentoNull) {
+        return (
+          <div className="flex items-center justify-center">
+            <span className="text-base font-medium text-neutral-600 text-center">
+              Não informado
+            </span>
           </div>
         );
       }

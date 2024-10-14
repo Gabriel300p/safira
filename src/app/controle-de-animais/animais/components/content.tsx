@@ -17,21 +17,29 @@ import AnimaisForm from "./animais-form";
 import { columns } from "./animais-table/columns";
 import { DataTable } from "./animais-table/data-table";
 
-const Headbar: FC = ({}) => {
+const Content: FC = ({}) => {
   const { animals, isLoading, error, dataUpdatedAt } = useAnimalContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
   if (isLoading)
     return (
-      <div className="flex items-center gap-2 justify-between w-full">
-        <div className="items-center gap-8 hidden sm:flex">
-          <Skeleton className="h-12 w-48" />
-          <Separator orientation="vertical" className="bg-neutral-100 h-12" />
-          <Skeleton className="h-12 w-24" />
-          <Separator orientation="vertical" className="bg-neutral-100 h-12" />
-          <Skeleton className="h-12 w-24" />
+      <div className="flex flex-col gap-8 w-full">
+        <div className="flex items-center gap-2 justify-between w-full">
+          <div className="items-center gap-8 hidden sm:flex">
+            <Skeleton className="h-12 w-48" />
+            <Separator orientation="vertical" className="bg-neutral-100 h-12" />
+            <Skeleton className="h-12 w-24" />
+            <Separator orientation="vertical" className="bg-neutral-100 h-12" />
+            <Skeleton className="h-12 w-24" />
+          </div>
+          <Skeleton className="h-12 w-44" />
         </div>
-        <Skeleton className="h-12 w-44" />
+        <Separator className="bg-neutral-200 h-[1px]" />
+        <div className="flex items-center gap-2 justify-between w-full">
+          <div className="items-center gap-8 hidden sm:flex">
+            <Skeleton className="h-12 w-72" />
+          </div>
+          <Skeleton className="h-12 w-12" />
+        </div>
       </div>
     );
   if (error) return <div>Erro: {error.message}</div>;
@@ -122,4 +130,4 @@ const Headbar: FC = ({}) => {
   );
 };
 
-export default Headbar;
+export default Content;

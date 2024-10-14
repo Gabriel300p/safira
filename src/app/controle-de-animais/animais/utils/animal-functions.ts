@@ -42,7 +42,10 @@ const updateAnimal = async (
   animalData: Partial<Animal>
 ): Promise<Animal> => {
   try {
-    const response = await axios.put<Animal>(`/animal/${id}`, animalData);
+    const response = await axios.put<Animal>(`/api/animal`, {
+      id,
+      ...animalData,
+    });
     return response.data;
   } catch (error) {
     console.error(`Erro ao atualizar animal com ID ${id}:`, error);

@@ -35,3 +35,40 @@ export async function GET() {
   });
   return new Response(JSON.stringify(user), { status: 200 });
 }
+
+export async function PUT(req: Request) {
+  try {
+    const body = await req.json();
+
+    const updateData = {
+      ...(body.nome && { nome: body.nome }),
+      ...(body.porte && { porte: body.porte }),
+      ...(body.sexo && { sexo: body.sexo }),
+      ...(body.tipo && { tipo: body.tipo }),
+      ...(body.vacinado !== undefined && { vacinado: body.vacinado }),
+      ...(body.castrado !== undefined && { castrado: body.castrado }),
+      ...(body.obito !== undefined && { obito: body.obito }),
+      ...(body.microchip !== undefined && { microchip: body.microchip }),
+      ...(body.adotado !== undefined && { adotado: body.adotado }),
+      ...(body.dataNascimento && { dataNascimento: body.dataNascimento }),
+      ...(body.racaId !== undefined && { racaId: body.racaId }),
+      ...(body.tutorId !== undefined && { tutorId: body.tutorId }),
+      ...(body.imagem && { imagem: body.imagem }),
+    };
+
+    const user = await db.animal.update({
+      where: {
+        id: body.id,
+      },
+      data: updateData,
+    });
+
+    return new Response(JSON.stringify(user), { status: 200 });
+  } catch (error) {
+    console.error("Erro ao atualizar animal:", error);
+    return new Response(
+      JSON.stringify({ error: "Erro ao atualizar animal." }),
+      { status: 500 }
+    );
+  }
+}

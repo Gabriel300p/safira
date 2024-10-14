@@ -1,4 +1,5 @@
 import Sidebar from "@/components/sidebar";
+import { Toaster } from "@/components/ui/toaster";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -24,6 +25,7 @@ export default function RootLayout({
           <div className="bg-neutral-100 rounded-xl flex-1 flex flex-col">
             {children}
           </div>
+          <Toaster />
         </ReactQueryProvider>
       </body>
     </html>
