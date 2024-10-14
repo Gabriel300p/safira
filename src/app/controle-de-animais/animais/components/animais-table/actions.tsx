@@ -127,6 +127,8 @@ export default function AnimalTableActions({
     }
   };
 
+  console.log(selectedTutor, "selectedTutor");
+
   return (
     <div className="w-fit">
       <DropdownMenu>
@@ -254,46 +256,15 @@ export default function AnimalTableActions({
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
             <AlertDialogAction
-              className="bg-emerald-700 hover:bg-emerald-800"
+              className="bg-emerald-700 hover:bg-emerald-800 disabled:opacity-60 disabled:cursor-not-allowed"
               onClick={handleAdoptAnimal}
+              disabled={!selectedTutor}
             >
               Alterar status para adotado
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      {/* <Dialog open={isAdoptDialogOpen} onOpenChange={setIsAdoptDialogOpen}>
-        <DialogContent>
-          <p>Tem certeza que deseja alterar o status para adotado?</p>
-          <label htmlFor="tutor-select" className="block mt-4">
-            Selecione um tutor:
-          </label>
-          <select
-            id="tutor-select"
-            className="w-full mt-1 p-2 border rounded"
-            value={selectedTutor || ""}
-            onChange={(e) => setSelectedTutor(Number(e.target.value))}
-          >
-            <option value="" disabled>
-              Selecione um tutor
-            </option>
-            {tutors?.map((tutor) => (
-              <option key={tutor.id} value={tutor.id}>
-                {tutor.nome}
-              </option>
-            ))}
-          </select>
-          <div className="flex justify-end space-x-2 mt-4">
-            <Button
-              variant="outline"
-              onClick={() => setIsAdoptDialogOpen(false)}
-            >
-              Cancelar
-            </Button>
-            <Button onClick={handleAdoptAnimal}>Confirmar</Button>
-          </div>
-        </DialogContent>
-      </Dialog> */}
 
       {/* Diálogo de óbito */}
       <AlertDialog open={isObitoDialogOpen} onOpenChange={setIsObitoDialogOpen}>
