@@ -8,7 +8,7 @@ import Content from "./components/content";
 
 export default function Animais() {
   return (
-    <div className="h-screen">
+    <div className="mt-20">
       <TutorProvider>
         <AnimalProvider>
           <Topbar
@@ -22,7 +22,7 @@ export default function Animais() {
               </>
             }
           />
-          <div className="my-3 mx-4 px-4 md:px-6 pt-4 sm:pt-6 pb-5 bg-white rounded-md border border-neutral-200 flex-col justify-start items-start gap-5 flex">
+          <div className="my-3 mx-4 px-4 md:px-6 pt-4 sm:pt-6 pb-5 bg-white rounded-md border border-neutral-200 flex-col gap-5 flex">
             <Content />
           </div>
         </AnimalProvider>

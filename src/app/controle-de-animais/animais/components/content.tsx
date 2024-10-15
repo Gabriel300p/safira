@@ -31,7 +31,7 @@ const Content: FC = ({}) => {
     : "Não disponível";
 
   return (
-    <div className="w-full flex flex-col gap-5">
+    <div className="flex flex-col gap-5">
       <div className="justify-between items-center flex flex-col md:flex-row w-full">
         <div className="sm:items-center gap-4 lg:gap-8 flex flex-col sm:flex-row w-full">
           <div className="flex-col sm:justify-center items-start gap-1 flex">

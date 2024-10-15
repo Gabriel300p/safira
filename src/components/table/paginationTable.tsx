@@ -77,7 +77,7 @@ const PaginationTable: FC<PaginationTableProps> = ({ table }) => {
                   className={`${
                     table.getState().pagination.pageIndex === 0
                       ? "text-neutral-400"
-                      : "text-neutral-600"
+                      : "text-neutral-700"
                   } w-3.5 h-5`}
                 />
               </Button>
@@ -95,7 +95,7 @@ const PaginationTable: FC<PaginationTableProps> = ({ table }) => {
                   className={`${
                     table.getState().pagination.pageIndex === 0
                       ? "text-neutral-400"
-                      : "text-neutral-600"
+                      : "text-neutral-700"
                   } w-3.5 h-5`}
                 />
               </Button>
@@ -119,24 +119,6 @@ const PaginationTable: FC<PaginationTableProps> = ({ table }) => {
               </PaginationItem>
             ))}
 
-            {/* Botão para pular para a próxima página */}
-            <PaginationItem>
-              <Button
-                variant="outline"
-                size="xs"
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
-              >
-                <PiCaretDoubleRight
-                  className={`${
-                    table.getState().pagination.pageIndex === 0
-                      ? "text-neutral-400"
-                      : "text-neutral-600"
-                  } w-3.5 h-5`}
-                />
-              </Button>
-            </PaginationItem>
-
             {/* Botão para pular para a última página */}
             <PaginationItem>
               <Button
@@ -148,13 +130,18 @@ const PaginationTable: FC<PaginationTableProps> = ({ table }) => {
                   table.getPageCount() - 1
                 }
               >
-                <PiCaretRight
-                  className={`${
-                    table.getState().pagination.pageIndex === 0
-                      ? "text-neutral-400"
-                      : "text-neutral-600"
-                  } w-3.5 h-5`}
-                />
+                <PiCaretRight className={`text-neutral-700 w-3.5 h-5`} />
+              </Button>
+            </PaginationItem>
+            {/* Botão para pular para a próxima página */}
+            <PaginationItem>
+              <Button
+                variant="outline"
+                size="xs"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+              >
+                <PiCaretDoubleRight className={`text-neutral-700 w-3.5 h-5`} />
               </Button>
             </PaginationItem>
           </PaginationContent>

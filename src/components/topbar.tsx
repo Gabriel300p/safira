@@ -58,7 +58,7 @@ export default function Topbar({ title, subtitle }: Links) {
   }
 
   return (
-    <div className="px-6 py-5 bg-white justify-between items-center inline-flex rounded-tl-xl rounded-tr-xl w-full">
+    <div className="px-6 py-5 bg-white justify-between items-center flex rounded-xl  fixed top-0 z-50 border-b border-neutral-300 shadow backdrop-blur w-[84.5%] sm:w-[83.4%]">
       <div className="justify-start items-center gap-2 flex">
         <div className="justify-start items-center gap-2 hidden md:flex">
           {subtitle}
@@ -71,7 +71,7 @@ export default function Topbar({ title, subtitle }: Links) {
         </span>
       </div>
 
-      <div className="justify-start items-center gap-4 flex ">
+      <div className="items-center gap-4 flex ">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div className="hover:bg-neutral-100 transition-all duration-200 ease-in-out rounded-lg cursor-pointer">
