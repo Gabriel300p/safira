@@ -34,7 +34,7 @@ import {
 } from "react-icons/pi";
 import { deleteAnimal, updateAnimal } from "../../utils/animal-functions";
 import { Animal } from "../../utils/schema";
-import AnimaisForm from "../animais-form";
+import AnimaisForm from "../animais-form/animais-form";
 
 interface AnimalTableActionsProps {
   animal: Animal;

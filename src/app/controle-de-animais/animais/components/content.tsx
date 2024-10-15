@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/tooltip";
 import { FC, useState } from "react";
 import { PiPlusCircleFill, PiQuestion } from "react-icons/pi";
-import AnimaisForm from "./animais-form";
+import AnimaisForm from "./animais-form/animais-form";
 import AnimaisLoading from "./animais-loading";
 import { columns } from "./animais-table/columns";
 import { DataTable } from "./animais-table/data-table";

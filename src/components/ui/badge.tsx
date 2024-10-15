@@ -9,7 +9,7 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default:
-          "border-transparent bg-neutral-900 text-neutral-50 hover:bg-neutral-900/80 ",
+          "border-transparent bg-orange-600 text-neutral-50 hover:bg-neutral-900/80 ",
         gray: "text-neutral-600 text-sm bg-neutral-50 px-2.5 py-1 ",
         red: "text-red-600 text-sm bg-red-50 px-2.5 py-1",
         outline: "text-neutral-950 dark:text-neutral-50",
@@ -45,10 +45,28 @@ function Badge({ className, variant = "default", ...props }: BadgeProps) {
       )} flex items-center gap-1.5 `}
       {...props}
     >
-      <div className={`w-1.5 h-1.5 rounded-full ${dotColor}`} />
+      {dotColor && <div className={`w-1.5 h-1.5 rounded-full ${dotColor}`} />}
       <span>{props.children}</span>
     </div>
   );
 }
 
-export { Badge, badgeVariants };
+function BadgeWithoutDot({
+  className,
+  variant = "default",
+  ...props
+}: BadgeProps) {
+  return (
+    <div
+      className={`${cn(
+        badgeVariants({ variant }),
+        className
+      )} flex items-center gap-1.5 `}
+      {...props}
+    >
+      <span>{props.children}</span>
+    </div>
+  );
+}
+
+export { Badge, badgeVariants, BadgeWithoutDot };
