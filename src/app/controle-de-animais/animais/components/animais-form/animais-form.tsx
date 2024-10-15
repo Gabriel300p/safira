@@ -1,6 +1,5 @@
 "use client";
 
-import { updateAnimal } from "@/app/controle-de-animais/animais/utils/animal-functions";
 import { Button } from "@/components/ui/button";
 import { DialogTitle } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
@@ -8,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+
 import { Animal, animalSchema } from "../../utils/schema";
 import { AnimaisFormProps } from "../../utils/types";
 import { DadosCadastrais } from "./dados-cadastrais";
@@ -44,7 +44,7 @@ export default function AnimaisForm({
   const handleSubmit = form.handleSubmit(async (data) => {
     try {
       if (animalId) {
-        await updateAnimal(animalId, data);
+        // await UpdateAnimal(animalId, data);
       }
       onClose();
     } catch (error) {

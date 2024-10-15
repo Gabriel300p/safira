@@ -21,7 +21,6 @@ interface PaginationTableProps {
 const PaginationTable: FC<PaginationTableProps> = ({ table }) => {
   return (
     <div className="flex items-center justify-between gap-2 px-2">
-      {/* Exibição de quantidade de itens e seletor de linhas por página */}
       <div className="flex items-center gap-3 w-full">
         <div className="text-sm text-neutral-400 font-normal">
           <span className="font-bold text-neutral-600">
@@ -31,7 +30,7 @@ const PaginationTable: FC<PaginationTableProps> = ({ table }) => {
         </div>
         <Separator orientation="vertical" className="bg-neutral-200 h-6" />
         <div className="flex items-center space-x-2">
-          <span className="text-sm font-medium text-neutral-500">
+          <span className="text-sm font-medium text-neutral-500 hidden sm:block">
             Linhas por página:
           </span>
           <div className="border border-neutral-200 rounded py-1 px-1">
@@ -53,7 +52,7 @@ const PaginationTable: FC<PaginationTableProps> = ({ table }) => {
       {/* Controles de paginação */}
       <div className="flex items-center gap-4">
         {/* Texto da página atual de total de páginas */}
-        <div className="flex items-center space-x-1 text-sm text-neutral-500">
+        <div className="hidden sm:flex items-center space-x-1 text-sm text-neutral-500">
           <span>Página</span>
           <span className="font-bold text-neutral-600">
             {table.getState().pagination.pageIndex + 1}

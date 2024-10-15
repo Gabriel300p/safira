@@ -93,12 +93,13 @@ model VacinaAnimal {
 }
 
 model Raca {
-  id           Int      @id @default(autoincrement())
+  id           Int         @id @default(autoincrement())
   nome         String
   observacao   String?
-  usuario      Usuario  @relation(fields: [usuarioId], references: [id])
-  criadoEm     DateTime @default(now())
-  atualizadoEm DateTime @default(now()) @updatedAt
+  tipo         TIPO_ANIMAL @default(CACHORRO)
+  usuario      Usuario     @relation(fields: [usuarioId], references: [id])
+  criadoEm     DateTime    @default(now())
+  atualizadoEm DateTime    @default(now()) @updatedAt
   Animal       Animal[]
   usuarioId    Int
 }

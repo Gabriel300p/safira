@@ -12,6 +12,7 @@ interface AnimalContextType {
   dataUpdatedAt: number | undefined;
 }
 
+// Cria o contexto de animais com um valor inicial indefinido
 const AnimalContext = createContext<AnimalContextType | undefined>(undefined);
 
 export function AnimalProvider({ children }: { children: ReactNode }) {
@@ -21,10 +22,14 @@ export function AnimalProvider({ children }: { children: ReactNode }) {
     error,
     dataUpdatedAt,
   } = useQuery<Animal[], Error>({
-    queryKey: ["animals"],
-    queryFn: fetchAnimals,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    cacheTime: 10 * 60 * 1000, // 10 minutes
+    queryKey: ["animals"], // Chave para identificar a query
+    queryFn: fetchAnimals, // Função que busca os dados dos animais
+    retryOnMount: true, // Tenta refazer a busca ao montar
+    keepPreviousData: true, // Mantém os dados anteriores enquanto novos dados estão sendo carregados
+    refetchOnWindowFocus: true, // Refaz a busca ao voltar à aba
+    refetchOnReconnect: true, // Refaz a busca ao reconectar à rede
+    staleTime: 300000, // Os dados serão considerados frescos por 5 minutos
+    cacheTime: 600000, // Os dados em cache serão mantidos por 10 minutos
   });
 
   return (
@@ -38,8 +43,10 @@ export function AnimalProvider({ children }: { children: ReactNode }) {
 
 export function useAnimalContext() {
   const context = useContext(AnimalContext);
+
   if (context === undefined) {
     throw new Error("useAnimalContext must be used within an AnimalProvider");
   }
+
   return context;
 }

@@ -1,5 +1,23 @@
 "use client";
 
+import PaginationTable from "@/components/table/paginationTable";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,30 +30,9 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-
-import { Filter } from "@/components/table/filter";
-import PaginationTable from "@/components/table/paginationTable";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import React from "react";
-import { PiGear, PiHandHeart, PiPawPrint } from "react-icons/pi";
-import { adocao, tipo } from "../../utils/options";
+import { PiGear } from "react-icons/pi";
+import Toolbar from "./toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -73,40 +70,9 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div className="w-full flex flex-col gap-4">
-      <div className="flex items-center ">
-        <div className="flex items-center gap-2 w-full">
-          <Input
-            placeholder="Pesquisar por nome..."
-            value={(table.getColumn("nome")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("nome")?.setFilterValue(event.target.value)
-            }
-            className="max-w-xs"
-          />
-          <div className="flex items-center gap-2">
-            {table.getColumn("tipo") && (
-              <Filter
-                column={table.getColumn("tipo")}
-                title="Tipo"
-                options={tipo}
-                icon={
-                  <PiPawPrint className="w-[18px] h-[18px] text-neutral-600" />
-                }
-              />
-            )}
-            {table.getColumn("adotado") && (
-              <Filter
-                column={table.getColumn("adotado")}
-                title="Adoção"
-                options={adocao}
-                icon={
-                  <PiHandHeart className="w-[18px] h-[18px] text-neutral-600" />
-                }
-              />
-            )}
-          </div>
-        </div>
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center w-full overflow-auto gap-2">
+        <Toolbar table={table} />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto px-2.5 py-1.5">
@@ -136,6 +102,9 @@ export function DataTable<TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+
+      {/* Adicionando o overflow-x-auto para scroll horizontal */}
+
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -171,7 +140,7 @@ export function DataTable<TData, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
+              <TableCell colSpan={columns.length} className="h-32 text-center">
                 Sem resultados
               </TableCell>
             </TableRow>

@@ -128,7 +128,6 @@ export const columns: ColumnDef<Animal>[] = [
     id: "actions",
     cell: ({ row }) => {
       const animal = row.original;
-      // @ts-expect-error não preciso passar esse dado aqui
       return <AnimalTableActions animal={animal} />;
     },
   },

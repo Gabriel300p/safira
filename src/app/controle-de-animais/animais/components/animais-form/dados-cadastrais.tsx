@@ -16,6 +16,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
+import Datepicker from "react-tailwindcss-datepicker";
 import { Animal } from "../../utils/schema";
 
 interface DadosCadastraisProps {
@@ -24,6 +25,10 @@ interface DadosCadastraisProps {
 
 export function DadosCadastrais({ form }: DadosCadastraisProps) {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [value, setValue] = useState({
+    startDate: null,
+    endDate: null,
+  });
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -149,20 +154,22 @@ export function DadosCadastrais({ form }: DadosCadastraisProps) {
           <FormItem>
             <FormLabel>Data de nascimento</FormLabel>
             <FormControl>
-              <Input
-                type="date"
-                {...field}
-                value={
-                  field.value instanceof Date
-                    ? field.value.toISOString().split("T")[0]
-                    : ""
-                }
+              <Datepicker
+                value={value}
+                useRange={false}
+                asSingle={true}
+                placeholder="dd/mm/aaaa"
+                primaryColor={"orange"}
+                displayFormat="DD/MM/YYYY"
+                inputClassName=" py-2 w-full rounded-md border border-neutral-200 bg-white font-medium px-3 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-neutral-950 placeholder:text-neutral-500 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 placeholder:text-neutral-400 placeholder:font-normal"
+                onChange={(newValue: any) => setValue(newValue)}
               />
             </FormControl>
             <FormMessage />
           </FormItem>
         )}
       />
+
       <FormField
         control={form.control}
         name="observacao"

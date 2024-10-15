@@ -110,7 +110,11 @@ const Content: FC = ({}) => {
         </Dialog>
       </div>
       <Separator className="bg-neutral-200 h-[1px]" />
-      <DataTable columns={columns} data={animals || []} />
+
+      {/* Adicionando overflow-x-auto para permitir scroll horizontal */}
+      <div className="w-[360px] sm:w-full">
+        <DataTable columns={columns} data={animals || []} />
+      </div>
     </div>
   );
 };

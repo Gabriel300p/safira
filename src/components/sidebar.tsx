@@ -101,18 +101,21 @@ function SidebarItems({
                         </>
                       )}
                     </AccordionTrigger>
-                    <AccordionContent className="text-white pl-8 py-3">
-                      <ul className="flex flex-col gap-2">
+                    <AccordionContent className="text-white pl-5 py-4">
+                      <ul className="flex flex-col gap-2 border-l-2 border-neutral-700 pl-4 ">
                         {item.children?.map((child) => (
                           <li key={child.href}>
                             <Link
                               href={child.href}
                               className={`${
                                 pathname === child.href
-                                  ? "bg-neutral-700"
+                                  ? "bg-neutral-800 "
                                   : "hover:bg-neutral-800 transition-all duration-200 ease-in-out"
                               } px-4 py-2 rounded-lg items-center gap-2.5 text-white flex flex-row text-sm lg:text-base`}
                             >
+                              {pathname === child.href && (
+                                <div className="w-2 h-2 bg-primary rounded-full" />
+                              )}
                               {child.name}
                             </Link>
                           </li>
@@ -150,6 +153,10 @@ function SidebarItems({
                             href={child.href}
                             className="px-4 py-2 rounded-lg items-center gap-2.5 text-white flex flex-row text-base hover:bg-neutral-800 transition-all duration-200 ease-in-out"
                           >
+                            {pathname === child.href && (
+                              <div className="w-2 h-2 bg-primary rounded-full" />
+                            )}
+
                             {child.name}
                           </Link>
                         </li>
@@ -168,7 +175,6 @@ function SidebarItems({
 export default function Sidebar() {
   const [open, setOpen] = useState(true);
   const pathname = usePathname();
-
   const [activeItems, setActiveItems] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
@@ -190,7 +196,6 @@ export default function Sidebar() {
   ];
 
   const [isMobile, setIsMobile] = useState(false);
-  console.log(isMobile);
 
   useEffect(() => {
     const handleResize = () => {

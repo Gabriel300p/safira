@@ -38,12 +38,10 @@ import AnimaisForm from "../animais-form/animais-form";
 
 interface AnimalTableActionsProps {
   animal: Animal;
-  onUpdateAnimal: (updatedAnimal: Animal) => Promise<void>;
 }
 
 export default function AnimalTableActions({
   animal,
-  onUpdateAnimal,
 }: AnimalTableActionsProps) {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -52,6 +50,8 @@ export default function AnimalTableActions({
   const { tutors } = useTutorContext();
   const [selectedTutor, setSelectedTutor] = useState<number | null>(null);
   const { toast } = useToast();
+  const { mutateAsync: updateAnimalMutate } = updateAnimal();
+  const { mutateAsync: deleteAnimalMutate } = deleteAnimal();
 
   const handleEditClick = () => {
     setIsEditDialogOpen(true);
@@ -59,7 +59,7 @@ export default function AnimalTableActions({
 
   const handleDeleteAnimal = async () => {
     try {
-      await deleteAnimal(animal.id || 0);
+      await deleteAnimalMutate(animal.id || 0);
       toast({
         title: "Animal excluído com sucesso!",
         description: `${animal.nome} foi excluído.`,
@@ -87,11 +87,12 @@ export default function AnimalTableActions({
     }
 
     try {
-      await updateAnimal(animal.id || 0, {
+      await updateAnimalMutate({
+        id: animal.id || 0,
+        ...animal,
         adotado: true,
         tutorId: selectedTutor,
       });
-      setIsAdoptDialogOpen(false);
       toast({
         title: `Alterado status de ${animal.nome}`,
         description: "Seu novo status é: Adotado.",
@@ -109,28 +110,28 @@ export default function AnimalTableActions({
 
   const handleObitoAnimal = async () => {
     try {
-      await updateAnimal(animal.id || 0, { obito: true });
-      setIsObitoDialogOpen(false);
+      await updateAnimalMutate({
+        id: animal.id || 0,
+        ...animal,
+        obito: true,
+      });
       toast({
         title: "Status de óbito alterado com sucesso.",
         description: `${animal.nome} foi marcado como óbito.`,
         variant: "success",
       });
-      onUpdateAnimal({ ...animal, obito: true });
     } catch (error) {
       console.error("Erro ao alterar status de óbito:", error);
       toast({
         title: "Erro ao alterar status de óbito.",
-        description: "Por favor, tente novamente mais tarde.",
+        description: `${error as Error}.`,
         variant: "error",
       });
     }
   };
 
-  console.log(selectedTutor, "selectedTutor");
-
   return (
-    <div className="w-fit">
+    <div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="px-2 py-1">

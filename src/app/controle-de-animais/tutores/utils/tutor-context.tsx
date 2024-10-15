@@ -23,8 +23,8 @@ export function TutorProvider({ children }: { children: ReactNode }) {
   } = useQuery<Tutor[], Error>({
     queryKey: ["tutors"],
     queryFn: fetchTutors,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    cacheTime: 10 * 60 * 1000, // 10 minutes
+    retryOnMount: true,
+    keepPreviousData: true,
   });
 
   return (

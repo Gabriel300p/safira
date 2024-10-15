@@ -1,3 +1,4 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Animal } from "./schema";
 
@@ -37,32 +38,44 @@ const createAnimal = async (
 };
 
 // Função para atualizar um animal existente
-const updateAnimal = async (
-  id: number,
-  animalData: Partial<Animal>
-): Promise<Animal> => {
+const useUpdateAnimal = async (animalData: Animal): Promise<Animal> => {
   try {
-    const response = await axios.put<Animal>(`/api/animal`, {
-      id,
-      ...animalData,
-    });
+    const response = await axios.put<Animal>(`/api/animal/`, animalData);
     return response.data;
   } catch (error) {
-    console.error(`Erro ao atualizar animal com ID ${id}:`, error);
+    console.error(`Erro ao atualizar animal:`, error);
     throw error;
   }
 };
 
-// Função para deletar um animal
-const deleteAnimal = async (id: number): Promise<void> => {
+const useDeleteAnimal = async (id: number): Promise<void> => {
   try {
     await axios.delete(`/api/animal`, {
       data: { id },
     });
   } catch (error) {
-    console.error(`Erro ao deletar animal com ID ${id}:`, error);
+    console.error(`Erro ao atualizar animal:`, error);
     throw error;
   }
+};
+
+// Custom hook para atualizar um animal existente
+const updateAnimal = () => {
+  const queryClient = useQueryClient();
+  return useMutation((animalData: Animal) => useUpdateAnimal(animalData), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["animals"]);
+    },
+  });
+};
+
+const deleteAnimal = () => {
+  const queryClient = useQueryClient();
+  return useMutation((id: number) => useDeleteAnimal(id), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["animals"]);
+    },
+  });
 };
 
 export {
