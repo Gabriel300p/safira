@@ -72,9 +72,8 @@ model Vacina {
   id           Int            @id @default(autoincrement())
   nome         String
   tipo         String?
-  ultima       DateTime?
-  proxima      DateTime?
   observacao   String?
+  especie      String?
   usuario      Usuario        @relation(fields: [usuarioId], references: [id])
   criadoEm     DateTime       @default(now())
   atualizadoEm DateTime       @default(now()) @updatedAt
@@ -83,11 +82,13 @@ model Vacina {
 }
 
 model VacinaAnimal {
-  id           Int      @id @default(autoincrement())
-  vacina       Vacina   @relation(fields: [vacinaId], references: [id])
-  animal       Animal   @relation(fields: [animalId], references: [id])
-  criadoEm     DateTime @default(now())
-  atualizadoEm DateTime @default(now()) @updatedAt
+  id           Int       @id @default(autoincrement())
+  ultima       DateTime?
+  proxima      DateTime?
+  vacina       Vacina    @relation(fields: [vacinaId], references: [id])
+  animal       Animal    @relation(fields: [animalId], references: [id])
+  criadoEm     DateTime  @default(now())
+  atualizadoEm DateTime  @default(now()) @updatedAt
   vacinaId     Int
   animalId     Int
 }

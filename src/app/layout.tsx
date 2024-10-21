@@ -20,16 +20,27 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body
-        className={`${inter.className} antialiased bg-neutral-950 flex  justify-end min-h-screen  relative inset-0 left-0 overflow-x-hidden sm:overflow-x-auto mb-5`}
+        className={`${inter.className} antialiased bg-neutral-950 flex   mb-5`}
       >
         <ReactQueryProvider>
           <Sidebar />
-          <div className="bg-neutral-100 rounded-xl w-[85%] sm:w-[83.3%] flex flex-col absolute right-0 mb-5">
-            {children}
-          </div>
+          <div className="bg-neutral-100 rounded-xl w-full">{children}</div>
           <Toaster />
         </ReactQueryProvider>
       </body>
     </html>
+    // <html lang="pt-br">
+    //   <body
+    //     className={`${inter.className} antialiased bg-neutral-950 flex  justify-end min-h-screen  relative inset-0 left-0 overflow-x-hidden sm:overflow-x-auto mb-5`}
+    //   >
+    //     <ReactQueryProvider>
+    //       <Sidebar />
+    //       <div className="bg-neutral-100 rounded-xl w-[85%] sm:w-[83.3%] flex flex-col absolute right-0 mb-5">
+    //         {children}
+    //       </div>
+    //       <Toaster />
+    //     </ReactQueryProvider>
+    //   </body>
+    // </html>
   );
 }

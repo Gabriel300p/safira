@@ -30,7 +30,7 @@ export async function GET() {
       atualizadoEm: true,
     },
     orderBy: {
-      nome: "asc",
+      atualizadoEm: "desc",
     },
   });
   return new Response(JSON.stringify(user), { status: 200 });

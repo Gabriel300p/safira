@@ -1,6 +1,11 @@
 import { db } from "@/lib/db";
 import { z } from "zod";
 
+export async function GET() {
+  const racas = await db.raca.findMany();
+  return new Response(JSON.stringify(racas), { status: 200 });
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();

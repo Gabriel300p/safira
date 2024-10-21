@@ -2,6 +2,8 @@ import TableHeader from "@/components/table/columnSort";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import { PiCat, PiDog } from "react-icons/pi";
 import { Animal } from "../../utils/schema";
 import AnimalTableActions from "./actions";
@@ -121,6 +123,20 @@ export const columns: ColumnDef<Animal>[] = [
             {idade} anos
           </span>
         </div>
+      );
+    },
+  },
+  {
+    accessorKey: "atualizadoEm",
+    header: ({ column }) => (
+      <TableHeader column={column} title="Atualizado em" />
+    ),
+    cell: ({ row }) => {
+      const date = new Date(row.getValue("atualizadoEm"));
+      return (
+        <span className="flex items-center justify-center font-medium">
+          {format(date, "dd/MM/yyyy - HH:mm", { locale: ptBR })}
+        </span>
       );
     },
   },

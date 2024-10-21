@@ -1,13 +1,11 @@
 "use client";
 
+import { DialogForm, DialogFormContent } from "@/components/form/dialogForm";
 import { Button } from "@/components/ui/button";
-import { DialogTitle } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
-import { Separator } from "@/components/ui/separator";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-
 import { Animal, animalSchema } from "../../utils/schema";
 import { AnimaisFormProps } from "../../utils/types";
 import { DadosCadastrais } from "./dados-cadastrais";
@@ -20,6 +18,7 @@ export default function AnimaisForm({
   animalDataClick,
 }: AnimaisFormProps) {
   const [step, setStep] = useState(1);
+  const [progress, setProgress] = useState(0);
 
   const form = useForm<Animal>({
     resolver: zodResolver(animalSchema),
@@ -44,7 +43,6 @@ export default function AnimaisForm({
   const handleSubmit = form.handleSubmit(async (data) => {
     try {
       if (animalId) {
-        // await UpdateAnimal(animalId, data);
       }
       onClose();
     } catch (error) {
@@ -65,65 +63,41 @@ export default function AnimaisForm({
     }
   };
 
+  const tabs = [
+    { label: "Dados cadastrais", icon: "📋" },
+    { label: "Dados complementares", icon: "🔍" },
+    { label: "Vacinas", icon: "💉" },
+  ];
+
+  const calculateProgress = () => {
+    const formValues = form.getValues();
+    const totalFields = Object.keys(animalSchema.shape).length;
+    const filledFields = Object.keys(formValues).filter((key) => {
+      const value = formValues[key as keyof Animal];
+      return value !== undefined && value !== "" && value !== false;
+    }).length;
+    return Math.round((filledFields / totalFields) * 100);
+  };
+
+  useEffect(() => {
+    const subscription = form.watch(() => {
+      setProgress(calculateProgress());
+    });
+    return () => subscription.unsubscribe();
+  }, [form]);
+
   return (
-    <Form {...form}>
-      <form onSubmit={handleSubmit} className="flex flex-col max-h-[80vh]">
-        <DialogTitle className="text-lg font-semibold mb-4">
-          {animalId ? "Editar" : "Adicionar novo animal"}
-        </DialogTitle>
-        <div className="flex flex-grow overflow-y-hidden">
-          <div className="w-1/3 ">
-            <div className="font-medium mb-2">Adicionar novo animal</div>
-            <div className="text-sm text-gray-500 mb-4">
-              Aqui você pode criar um novo animal para acompanhar as
-              características dele.
-            </div>
-            <div className="space-y-2">
-              <button
-                type="button"
-                onClick={() => setStep(1)}
-                className={`flex items-center w-full text-left p-2 rounded ${
-                  step === 1
-                    ? "bg-orange-100 text-orange-500 font-medium"
-                    : "text-gray-500 hover:bg-gray-100"
-                }`}
-              >
-                <span className="mr-2">📋</span>
-                Dados cadastrais
-              </button>
-              <button
-                type="button"
-                onClick={() => setStep(2)}
-                className={`flex items-center w-full text-left p-2 rounded ${
-                  step === 2
-                    ? "bg-orange-100 text-orange-500 font-medium"
-                    : "text-gray-500 hover:bg-gray-100"
-                }`}
-              >
-                <span className="mr-2">🔍</span>
-                Dados complementares
-              </button>
-              <button
-                type="button"
-                onClick={() => setStep(3)}
-                className={`flex items-center w-full text-left p-2 rounded ${
-                  step === 3
-                    ? "bg-orange-100 text-orange-500 font-medium"
-                    : "text-gray-500 hover:bg-gray-100"
-                }`}
-              >
-                <span className="mr-2">💉</span>
-                Vacinas
-              </button>
-            </div>
-          </div>
-          <Separator orientation="vertical" className="mx-4" />
-          <div className="flex-1 overflow-y-auto pl-1 pr-4">{renderStep()}</div>
-        </div>
-        <Separator className="my-6" />
-        <div className="flex justify-between items-center mt-auto">
-          <div className="text-sm text-gray-500">Passo {step} de 3</div>
-          <div className="flex space-x-4">
+    <DialogForm open={true}>
+      <DialogFormContent
+        title={animalId ? "Editar animal" : "Adicionar novo animal"}
+        subtitle="Aqui você pode criar um novo animal para acompanhar as características dele."
+        tabs={tabs}
+        currentStep={step}
+        onStepChange={setStep}
+        onClose={onClose}
+        progress={progress}
+        footer={
+          <div className="flex justify-end space-x-4">
             <Button type="button" variant="outline" onClick={onClose}>
               Cancelar
             </Button>
@@ -134,8 +108,14 @@ export default function AnimaisForm({
               {step < 3 ? "Continuar" : "Salvar"}
             </Button>
           </div>
-        </div>
-      </form>
-    </Form>
+        }
+      >
+        <Form {...form}>
+          <form onSubmit={handleSubmit} className="space-y-6 ml-1">
+            {renderStep()}
+          </form>
+        </Form>
+      </DialogFormContent>
+    </DialogForm>
   );
 }

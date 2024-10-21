@@ -3,6 +3,7 @@
 import { useAnimalContext } from "@/app/controle-de-animais/animais/utils/animal-context";
 import { buttonVariants } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import NumberFlow from "@/components/ui/number-animation";
 import { Separator } from "@/components/ui/separator";
 import {
   Tooltip,
@@ -58,7 +59,11 @@ const Content: FC = ({}) => {
             </div>
             <div>
               <span className="text-neutral-700 text-sm font-bold leading-tight">
-                {animals?.length}
+                <NumberFlow
+                  value={animals?.length || 0}
+                  format={{ notation: "compact" }}
+                  locales="pt-BR"
+                />
               </span>
               <span className="text-neutral-500 text-sm font-normal leading-tight">
                 {" "}
@@ -74,9 +79,13 @@ const Content: FC = ({}) => {
             className="bg-neutral-200 h-12 hidden sm:block"
           />
           <div className="flex items-center justify-around sm:justify-normal gap-0 md:gap-4 lg:gap-8 mb-8 sm:mb-0">
-            <div className="flex-col justify-center items-center gap-2 inline-flex">
+            <div className="flex-col justify-center items-center gap-1 inline-flex">
               <strong className="text-neutral-700 text-2xl font-semibold">
-                {adoptedAnimals.length}
+                <NumberFlow
+                  value={adoptedAnimals.length}
+                  format={{ notation: "compact" }}
+                  locales="pt-BR"
+                />
               </strong>
               <div className="justify-center items-center gap-2 inline-flex">
                 <div className="w-[8px] h-[8px] bg-emerald-600 rounded-full" />
@@ -88,7 +97,11 @@ const Content: FC = ({}) => {
             <Separator orientation="vertical" className="bg-neutral-200 h-12" />
             <div className="flex-col justify-center items-center gap-2 inline-flex">
               <strong className="text-neutral-700 text-2xl font-semibold">
-                {notAdoptedAnimals.length}
+                <NumberFlow
+                  value={notAdoptedAnimals.length}
+                  format={{ notation: "compact" }}
+                  locales="pt-BR"
+                />
               </strong>
               <div className="justify-center items-center gap-2 inline-flex">
                 <div className="w-[8px] h-[8px] bg-red-600 rounded-full" />

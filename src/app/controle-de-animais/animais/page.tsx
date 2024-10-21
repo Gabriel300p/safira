@@ -8,7 +8,7 @@ import Content from "./components/content";
 
 export default function Animais() {
   return (
-    <div className="mt-20">
+    <div className="mt-24">
       <TutorProvider>
         <AnimalProvider>
           <Topbar

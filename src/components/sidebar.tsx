@@ -221,15 +221,16 @@ export default function Sidebar() {
           pathname === "/auth/login"
             ? "hidden"
             : open
-            ? "w-2/3 sm:w-1/5 xl:w-1/6 px-3 py-5 2xl:p-6 justify-start items-start"
+            ? "w-2/3 sm:w-1/5 xl:w-[20%] px-3 py-5 2xl:p-6 justify-start items-start"
             : "w-16 px-2 py-5 sm:py-6 sm:px-3 lg:w-20 "
-        } h-full bg-neutral-950 rounded-xl border-r border-black/10 flex-col inline-flex gap-6 fixed top-0 left-0 z-50`}
+        } h-full bg-neutral-950 rounded-xl border-r border-black/10 flex-col inline-flex gap-6`}
+        // } h-full bg-neutral-950 rounded-xl border-r border-black/10 flex-col inline-flex gap-6 fixed top-0 left-0 z-50`}
       >
         <div className="self-stretch justify-between items-center inline-flex">
           {open ? (
             <div className="text-[#ff8201] text-2xl font-bold">Safira</div>
           ) : null}
-          {/* <button
+          <button
             className={` ${
               open ? "p-1.5" : "flex-grow shrink-0 p-2"
             } bg-neutral-800 rounded-lg justify-center items-start gap-2 flex `}
@@ -241,7 +242,7 @@ export default function Sidebar() {
                 open ? "" : "rotate-180"
               } text-white transition duration-300`}
             />
-          </button> */}
+          </button>
         </div>
         <Separator className="bg-neutral-700 mb-2" />
         {allSections.map((section, index) => (
