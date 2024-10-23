@@ -125,6 +125,21 @@ export const columns: ColumnDef<Animal>[] = [
     },
   },
   {
+    accessorKey: "atualizadoEm",
+    header: ({ column }) => (
+      <TableHeader column={column} title="Atualizado em" />
+    ),
+    cell: ({ row }) => {
+      const atualizadoEm = new Date(row.getValue("atualizadoEm"));
+      return (
+        <div className="text-base font-medium text-center text-neutral-600">
+          {atualizadoEm.toLocaleDateString("pt-BR")} -{" "}
+          {atualizadoEm.toLocaleTimeString("pt-BR")}
+        </div>
+      );
+    },
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
       const animal = row.original;

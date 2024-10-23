@@ -1,24 +1,24 @@
 "use client";
 
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
 import { outrosLinks, sidebarLinks } from "@/utils/sidebar-links";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { PiCaretDoubleLeft } from "react-icons/pi";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "./ui/accordion";
-import { Button } from "./ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { Separator } from "./ui/separator";
 
 type SidebarItem = {
   name: string;
@@ -221,9 +221,10 @@ export default function Sidebar() {
           pathname === "/auth/login"
             ? "hidden"
             : open
-            ? "w-2/3 sm:w-1/5 xl:w-1/6 px-3 py-5 2xl:p-6 justify-start items-start"
+            ? "w-2/3 sm:w-1/5 xl:w-[20%] px-3 py-5 2xl:p-6 justify-start items-start"
             : "w-16 px-2 py-5 sm:py-6 sm:px-3 lg:w-20 "
-        } h-full bg-neutral-950 rounded-xl border-r border-black/10 flex-col inline-flex gap-6 fixed top-0 left-0 z-50`}
+        } h-full bg-neutral-950 rounded-xl border-r border-black/10 flex-col inline-flex gap-6`}
+        // } h-full bg-neutral-950 rounded-xl border-r border-black/10 flex-col inline-flex gap-6 fixed top-0 left-0 z-50`}
       >
         <div className="self-stretch justify-between items-center inline-flex">
           {open ? (

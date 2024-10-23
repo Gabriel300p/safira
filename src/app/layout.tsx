@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body
-        className={`${inter.className} antialiased bg-neutral-950 flex  justify-end min-h-screen  relative inset-0 left-0 overflow-x-hidden sm:overflow-x-auto mb-5`}
+        className={`${inter.className} antialiased bg-neutral-950 flex justify-end min-h-screen  relative inset-0 left-0 overflow-x-hidden sm:overflow-x-auto mb-5`}
       >
         <ReactQueryProvider>
           <Sidebar />

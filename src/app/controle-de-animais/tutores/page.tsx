@@ -1,5 +1,20 @@
 import Topbar from "@/components/topbar";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { PiPawPrint } from "react-icons/pi";
+import { z } from "zod";
+import AnimaisFormNew from "../animais/components/animais-form-new/AnimaisFormNew";
+// import AnimaisFormNew from "../animais/components/animais-form-new/AnimaisFormNew";
 
 export default function Tutores() {
   return (
@@ -15,7 +30,7 @@ export default function Tutores() {
           </>
         }
       />
-      <div className="flex items-center justify-center h-full">Tutores</div>
+      <div className="flex items-center justify-center h-screen">tutores</div>
     </>
   );
 }

@@ -1,13 +1,28 @@
 "use client";
 
+import { DialogForm, DialogFormContent } from "@/components/form/DialogForm";
 import { Button } from "@/components/ui/button";
-import { DialogTitle } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
-import { Separator } from "@/components/ui/separator";
+import { toast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-
+import {
+  PiArrowRightFill,
+  PiCircleNotch,
+  PiCirclesThreePlus,
+  PiFloppyDiskFill,
+  PiSyringe,
+  PiTable,
+} from "react-icons/pi";
+import { z } from "zod";
+import {
+  createAnimal,
+  updateAnimal,
+  useUpdateAnimal,
+} from "../../utils/animal-functions";
 import { Animal, animalSchema } from "../../utils/schema";
 import { AnimaisFormProps } from "../../utils/types";
 import { DadosCadastrais } from "./dados-cadastrais";
@@ -18,124 +33,183 @@ export default function AnimaisForm({
   animalId,
   onClose,
   animalDataClick,
+  vacinas,
 }: AnimaisFormProps) {
   const [step, setStep] = useState(1);
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
   const form = useForm<Animal>({
     resolver: zodResolver(animalSchema),
     defaultValues: {
       id: animalDataClick?.id,
       nome: animalDataClick?.nome || "",
-      tipo: animalDataClick?.tipo || "CACHORRO",
-      sexo: animalDataClick?.sexo || "INDEFINIDO",
-      porte: animalDataClick?.porte || "MÉDIO",
+      tipo: animalDataClick?.tipo || undefined,
+      sexo: animalDataClick?.sexo || undefined,
+      porte: animalDataClick?.porte || undefined,
       castrado: animalDataClick?.castrado || false,
       vacinado: animalDataClick?.vacinado || false,
       adestrado: animalDataClick?.adestrado || false,
       obito: animalDataClick?.obito || false,
       microchip: animalDataClick?.microchip || false,
-      adotado: animalDataClick?.adotado,
-      dataNascimento: animalDataClick?.dataNascimento || new Date(),
-      racaId: animalDataClick?.raca?.id || 0,
+      adotado: animalDataClick?.adotado || false,
+      dataNascimento: animalDataClick?.dataNascimento || undefined,
+      racaId: animalDataClick?.raca?.id || undefined,
+      tutorId: animalDataClick?.tutor?.id || undefined,
       observacao: animalDataClick?.observacao || "",
+      // vacinaAnimal: animalDataClick?.vacinaAnimal || [],
     },
   });
 
-  const handleSubmit = form.handleSubmit(async (data) => {
+  const createMutation = useMutation(createAnimal, {
+    onSuccess: () => {
+      toast({
+        title: "Animal criado com sucesso",
+        description: "O animal foi adicionado à lista.",
+        variant: "success",
+      });
+    },
+    onError: (error) => {
+      console.error("Error creating animal:", error);
+      toast({
+        title: "Erro ao criar animal",
+        description: "Por favor, tente novamente.",
+        variant: "error",
+      });
+    },
+  });
+
+  const updateMutation = useMutation(useUpdateAnimal, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["animals"]);
+      onClose();
+      toast({
+        title: "Animal atualizado com sucesso",
+      });
+    },
+    onError: (error) => {
+      console.error("Error updating animal:", error);
+      toast({
+        title: "Erro ao atualizar animal",
+        description: "Por favor, tente novamente.",
+        variant: "error",
+      });
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof animalSchema>) => {
     try {
       if (animalId) {
-        // await UpdateAnimal(animalId, data);
+        await updateMutation.mutateAsync(values);
+        console.log(values);
+      } else {
+        await createMutation.mutateAsync(values);
+        onClose();
       }
-      onClose();
     } catch (error) {
       console.error("Error submitting form:", error);
     }
-  });
+  };
 
-  const renderStep = () => {
+  const renderStep = useCallback(() => {
     switch (step) {
       case 1:
-        return <DadosCadastrais form={form} />;
+        return <DadosCadastrais formControl={form.control} />;
       case 2:
         return <DadosComplementares form={form} />;
       case 3:
-        return <Vacinas form={form} />;
+        return <Vacinas form={form} vacinas={vacinas} />;
       default:
         return null;
     }
+  }, [step, form, vacinas]);
+
+  const isStepValid = async () => {
+    switch (step) {
+      case 1:
+        return await form.trigger(["nome", "tipo", "sexo", "porte", "racaId"]);
+      case 2:
+      case 3:
+        return true;
+      default:
+        return false;
+    }
   };
 
+  const handleNextStep = async () => {
+    const valid = await isStepValid();
+
+    if (valid) {
+      if (step < 3) {
+        setStep(step + 1);
+      } else {
+        form.handleSubmit(onSubmit)();
+      }
+    }
+  };
+
+  const tabs = [
+    { label: "Dados cadastrais", icon: <PiTable className="w-6 h-6" /> },
+    {
+      label: "Dados complementares",
+      icon: <PiCirclesThreePlus className="w-6 h-6" />,
+    },
+    { label: "Vacinas", icon: <PiSyringe className="w-6 h-6" /> },
+  ];
+
+  const isLoading = createMutation.isLoading || updateMutation.isLoading;
+
+  const buttonText = animalId ? (
+    <div className="flex items-center gap-1.5">
+      <PiFloppyDiskFill className="h-5 w-5 text-white" /> Alterar
+    </div>
+  ) : step < 3 ? (
+    <div className="flex items-center gap-1.5">
+      <PiArrowRightFill className="h-5 w-5 text-white" /> Continuar
+    </div>
+  ) : (
+    <div className="flex items-center gap-1.5">
+      {isLoading ? (
+        <PiCircleNotch className="h-5 w-5 animate-spin" />
+      ) : (
+        <PiFloppyDiskFill className="h-5 w-5 text-white" />
+      )}
+      Salvar
+    </div>
+  );
+
   return (
-    <Form {...form}>
-      <form onSubmit={handleSubmit} className="flex flex-col max-h-[80vh]">
-        <DialogTitle className="text-lg font-semibold mb-4">
-          {animalId ? "Editar" : "Adicionar novo animal"}
-        </DialogTitle>
-        <div className="flex flex-grow overflow-y-hidden">
-          <div className="w-1/3 ">
-            <div className="font-medium mb-2">Adicionar novo animal</div>
-            <div className="text-sm text-gray-500 mb-4">
-              Aqui você pode criar um novo animal para acompanhar as
-              características dele.
-            </div>
-            <div className="space-y-2">
-              <button
-                type="button"
-                onClick={() => setStep(1)}
-                className={`flex items-center w-full text-left p-2 rounded ${
-                  step === 1
-                    ? "bg-orange-100 text-orange-500 font-medium"
-                    : "text-gray-500 hover:bg-gray-100"
-                }`}
-              >
-                <span className="mr-2">📋</span>
-                Dados cadastrais
-              </button>
-              <button
-                type="button"
-                onClick={() => setStep(2)}
-                className={`flex items-center w-full text-left p-2 rounded ${
-                  step === 2
-                    ? "bg-orange-100 text-orange-500 font-medium"
-                    : "text-gray-500 hover:bg-gray-100"
-                }`}
-              >
-                <span className="mr-2">🔍</span>
-                Dados complementares
-              </button>
-              <button
-                type="button"
-                onClick={() => setStep(3)}
-                className={`flex items-center w-full text-left p-2 rounded ${
-                  step === 3
-                    ? "bg-orange-100 text-orange-500 font-medium"
-                    : "text-gray-500 hover:bg-gray-100"
-                }`}
-              >
-                <span className="mr-2">💉</span>
-                Vacinas
-              </button>
-            </div>
-          </div>
-          <Separator orientation="vertical" className="mx-4" />
-          <div className="flex-1 overflow-y-auto pl-1 pr-4">{renderStep()}</div>
-        </div>
-        <Separator className="my-6" />
-        <div className="flex justify-between items-center mt-auto">
-          <div className="text-sm text-gray-500">Passo {step} de 3</div>
-          <div className="flex space-x-4">
-            <Button type="button" variant="outline" onClick={onClose}>
-              Cancelar
-            </Button>
-            <Button
-              type="button"
-              onClick={() => (step < 3 ? setStep(step + 1) : handleSubmit())}
-            >
-              {step < 3 ? "Continuar" : "Salvar"}
-            </Button>
-          </div>
-        </div>
-      </form>
-    </Form>
+    <DialogForm open={true}>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+          <DialogFormContent
+            title={animalId ? "Editar animal" : "Adicionar novo animal"}
+            subtitle="Aqui você pode criar um novo animal para acompanhar as características dele."
+            tabs={tabs}
+            currentStep={step}
+            onStepChange={setStep}
+            onClose={onClose}
+            footer={
+              <div className="flex justify-end space-x-4">
+                <Button type="button" variant="outline" onClick={onClose}>
+                  Cancelar
+                </Button>
+                <Button
+                  type="button"
+                  onClick={
+                    animalId ? form.handleSubmit(onSubmit) : handleNextStep
+                  }
+                  disabled={isLoading}
+                >
+                  {buttonText}
+                </Button>
+              </div>
+            }
+          >
+            {renderStep()}
+          </DialogFormContent>
+        </form>
+      </Form>
+    </DialogForm>
   );
 }

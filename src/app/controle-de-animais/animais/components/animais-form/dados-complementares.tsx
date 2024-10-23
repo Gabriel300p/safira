@@ -4,6 +4,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import {
   Select,
@@ -23,9 +24,9 @@ interface DadosComplementaresProps {
 
 export function DadosComplementares({ form }: DadosComplementaresProps) {
   const { tutors } = useTutorContext();
+
   return (
-    <div className="space-y-5">
-      {/* <h2 className="text-lg font-semibold">Dados complementares</h2> */}
+    <div className="space-y-5 mt-3">
       <FormField
         control={form.control}
         name="castrado"
@@ -96,21 +97,34 @@ export function DadosComplementares({ form }: DadosComplementaresProps) {
                 />
               </FormControl>
             </FormItem>
-            {field.value === false && (
-              <Select onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecione o tutor" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {tutors?.map((tutor) => (
-                    <SelectItem key={tutor.id} value={String(tutor.id)}>
-                      {tutor.nome}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+
+            {field.value && (
+              <FormField
+                control={form.control}
+                name="tutorId"
+                render={({ field }) => (
+                  <FormItem>
+                    <Select
+                      onValueChange={(value) => field.onChange(Number(value))}
+                      value={field.value ? String(field.value) : ""}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecione um tutor" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {tutors?.map((tutor) => (
+                          <SelectItem key={tutor.id} value={String(tutor.id)}>
+                            {tutor.nome}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             )}
           </div>
         )}

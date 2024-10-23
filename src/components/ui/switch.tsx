@@ -8,17 +8,15 @@ import { cn } from "@/lib/utils";
 const SwitchWithLabels = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
   React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
->(({ className, ...props }, ref) => {
-  const [isChecked, setIsChecked] = React.useState(false);
-
+>(({ className, checked, onCheckedChange, ...props }, ref) => {
   return (
     <div className="flex items-center space-x-3">
       <span
         className={cn(
           "text-sm ",
-          isChecked
-            ? "text-neutral-400 font-medium"
-            : "text-neutral-600 font-semibold"
+          !checked
+            ? "text-neutral-600 font-semibold"
+            : "text-neutral-400 font-medium"
         )}
       >
         Não
@@ -30,8 +28,8 @@ const SwitchWithLabels = React.forwardRef<
         )}
         {...props}
         ref={ref}
-        checked={isChecked}
-        onCheckedChange={(checked) => setIsChecked(checked)}
+        checked={checked}
+        onCheckedChange={onCheckedChange}
       >
         <SwitchPrimitives.Thumb
           className={cn(
@@ -42,7 +40,7 @@ const SwitchWithLabels = React.forwardRef<
       <span
         className={cn(
           "text-sm ",
-          isChecked
+          checked
             ? "text-neutral-600 font-semibold"
             : "text-neutral-400 font-medium"
         )}
@@ -67,11 +65,12 @@ const Switch = React.forwardRef<
   >
     <SwitchPrimitives.Thumb
       className={cn(
-        "pointer-events-none block h-5 w-5 rounded-full bg-white shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0 "
+        "pointer-events-none block h-5 w-5 rounded-full bg-white shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
       )}
     />
   </SwitchPrimitives.Root>
 ));
+
 Switch.displayName = SwitchPrimitives.Root.displayName;
 SwitchWithLabels.displayName = SwitchPrimitives.Root.displayName;
 

@@ -30,7 +30,7 @@ export async function GET() {
       atualizadoEm: true,
     },
     orderBy: {
-      nome: "asc",
+      atualizadoEm: "desc",
     },
   });
   return new Response(JSON.stringify(user), { status: 200 });
@@ -85,6 +85,51 @@ export async function DELETE(req: Request) {
   } catch (error) {
     console.error("Erro ao excluir animal:", error);
     return new Response(JSON.stringify({ error: "Erro ao excluir animal." }), {
+      status: 500,
+    });
+  }
+}
+
+export async function POST(req: Request) {
+  try {
+    const body = await req.json();
+
+    const tutorIdAdotado = body.adotado === false && 2;
+    const user = await db.animal.create({
+      data: {
+        nome: body.nome,
+        porte: body.porte,
+        sexo: body.sexo,
+        tipo: body.tipo,
+        vacinado: body.vacinado,
+        adestrado: body.adestrado,
+        castrado: body.castrado,
+        obito: body.obito,
+        microchip: body.microchip,
+        adotado: body.adotado,
+        raca: {
+          connect: {
+            id: body.racaId,
+          },
+        },
+        dataNascimento: body.dataNascimento,
+        usuario: {
+          connect: {
+            id: 2,
+          },
+        },
+        tutor: {
+          connect: {
+            id: tutorIdAdotado || body.tutorId,
+          },
+        },
+        imagem: body.imagem,
+      },
+    });
+    return new Response(JSON.stringify(user), { status: 200 });
+  } catch (error) {
+    console.error("Erro ao criar animal:", error);
+    return new Response(JSON.stringify({ error: "Erro ao criar animal." }), {
       status: 500,
     });
   }

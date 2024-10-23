@@ -84,4 +84,5 @@ export {
   fetchAnimalById,
   fetchAnimals,
   updateAnimal,
+  useUpdateAnimal,
 };

@@ -4,4 +4,5 @@ export interface AnimaisFormProps {
   animalId?: number;
   onClose: () => void;
   animalDataClick?: Animal;
+  vacinas?: any;
 }

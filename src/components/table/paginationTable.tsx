@@ -1,11 +1,17 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import {
-  PiCaretDoubleLeft,
-  PiCaretDoubleRight,
-  PiCaretLeft,
-  PiCaretRight,
+  PiCaretDoubleLeftBold,
+  PiCaretDoubleRightBold,
+  PiCaretLeftBold,
+  PiCaretRightBold,
 } from "react-icons/pi";
 import { Button } from "../ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import {
   Pagination,
   PaginationContent,
@@ -19,6 +25,11 @@ interface PaginationTableProps {
 }
 
 const PaginationTable: FC<PaginationTableProps> = ({ table }) => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const pageIndex = table.getState().pagination.pageIndex;
+  const pageCount = table.getPageCount();
+  const previousPage = pageIndex > 0 ? pageIndex - 1 : null;
+  const nextPage = pageIndex < pageCount - 1 ? pageIndex + 1 : null;
   return (
     <div className="flex items-center justify-between gap-2 px-2">
       <div className="flex items-center gap-3 w-full">
@@ -35,12 +46,16 @@ const PaginationTable: FC<PaginationTableProps> = ({ table }) => {
           </span>
           <div className="border border-neutral-200 rounded py-1 px-1">
             <select
-              className="text-sm font-medium text-neutral-500"
+              className="text-sm font-medium text-neutral-500 focus:outline-none"
               value={table.getState().pagination.pageSize}
               onChange={(e) => table.setPageSize(Number(e.target.value))}
             >
               {[10, 20, 30, 40, 50].map((pageSize) => (
-                <option key={pageSize} value={pageSize}>
+                <option
+                  key={pageSize}
+                  value={pageSize}
+                  className="text-sm font-medium text-neutral-500"
+                >
                   {pageSize}
                 </option>
               ))}
@@ -66,14 +81,14 @@ const PaginationTable: FC<PaginationTableProps> = ({ table }) => {
         <Pagination>
           <PaginationContent className="flex items-center space-x-0.5">
             {/* Botão para pular para a primeira página */}
-            <PaginationItem>
+            <PaginationItem className="hidden sm:block">
               <Button
                 variant="outline"
                 size="xs"
                 onClick={() => table.setPageIndex(0)}
                 disabled={table.getState().pagination.pageIndex === 0}
               >
-                <PiCaretDoubleLeft
+                <PiCaretDoubleLeftBold
                   className={`${
                     table.getState().pagination.pageIndex === 0
                       ? "text-neutral-400"
@@ -91,7 +106,7 @@ const PaginationTable: FC<PaginationTableProps> = ({ table }) => {
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
               >
-                <PiCaretLeft
+                <PiCaretLeftBold
                   className={`${
                     table.getState().pagination.pageIndex === 0
                       ? "text-neutral-400"
@@ -101,26 +116,82 @@ const PaginationTable: FC<PaginationTableProps> = ({ table }) => {
               </Button>
             </PaginationItem>
 
-            {/* Números de páginas dinâmicos */}
-            {Array.from({ length: table.getPageCount() }).map((_, index) => (
-              <PaginationItem key={index}>
-                <PaginationLink
-                  href="#"
+            {/* Botão para página anterior */}
+            {previousPage !== null && (
+              <PaginationItem>
+                <Button
+                  variant="outline"
                   size="xs"
-                  onClick={() => table.setPageIndex(index)}
-                  className={
-                    table.getState().pagination.pageIndex === index
-                      ? "active"
-                      : ""
-                  }
+                  onClick={() => table.setPageIndex(previousPage)}
                 >
-                  {index + 1}
-                </PaginationLink>
+                  {previousPage + 1}
+                </Button>
               </PaginationItem>
-            ))}
+            )}
 
+            {/* Página atual */}
+            <PaginationItem>
+              <PaginationLink
+                href="#"
+                size="xs"
+                className="bg-neutral-600 text-neutral-50 border border-neutral-200"
+              >
+                {pageIndex + 1}
+              </PaginationLink>
+            </PaginationItem>
+
+            {/* Próxima página */}
+            {nextPage !== null && (
+              <PaginationItem>
+                <Button
+                  variant="outline"
+                  size="xs"
+                  onClick={() => table.setPageIndex(nextPage)}
+                >
+                  {nextPage + 1}
+                </Button>
+              </PaginationItem>
+            )}
+            {/* Dropdown para outras páginas */}
+            {pageCount > 3 && (
+              <PaginationItem>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="xs"
+                      onClick={() => setDropdownOpen(!dropdownOpen)}
+                    >
+                      ...
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="flex gap-2 py-1">
+                    {Array.from({ length: pageCount }).map((_, index) => (
+                      <DropdownMenuItem
+                        key={index}
+                        onClick={() => table.setPageIndex(index)}
+                        className="cursor-pointer py-1 px-1.5"
+                      >
+                        {index + 1}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </PaginationItem>
+            )}
             {/* Botão para pular para a última página */}
             <PaginationItem>
+              <Button
+                variant="outline"
+                size="xs"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+              >
+                <PiCaretRightBold className={`text-neutral-700 w-3.5 h-5`} />
+              </Button>
+            </PaginationItem>
+            {/* Botão para pular para a próxima página */}
+            <PaginationItem className="hidden sm:block">
               <Button
                 variant="outline"
                 size="xs"
@@ -130,18 +201,9 @@ const PaginationTable: FC<PaginationTableProps> = ({ table }) => {
                   table.getPageCount() - 1
                 }
               >
-                <PiCaretRight className={`text-neutral-700 w-3.5 h-5`} />
-              </Button>
-            </PaginationItem>
-            {/* Botão para pular para a próxima página */}
-            <PaginationItem>
-              <Button
-                variant="outline"
-                size="xs"
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
-              >
-                <PiCaretDoubleRight className={`text-neutral-700 w-3.5 h-5`} />
+                <PiCaretDoubleRightBold
+                  className={`text-neutral-600 w-3.5 h-5`}
+                />
               </Button>
             </PaginationItem>
           </PaginationContent>

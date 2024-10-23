@@ -20,3 +20,8 @@ export async function POST(req: Request) {
     return new Response("Não foi possível criar a raça", { status: 500 });
   }
 }
+
+export async function GET() {
+  const racas = await db.raca.findMany({ orderBy: { nome: "asc" } });
+  return new Response(JSON.stringify(racas), { status: 200 });
+}

@@ -25,11 +25,9 @@ export function AnimalProvider({ children }: { children: ReactNode }) {
     queryKey: ["animals"], // Chave para identificar a query
     queryFn: fetchAnimals, // Função que busca os dados dos animais
     retryOnMount: true, // Tenta refazer a busca ao montar
-    keepPreviousData: true, // Mantém os dados anteriores enquanto novos dados estão sendo carregados
+    keepPreviousData: true,
     refetchOnWindowFocus: true, // Refaz a busca ao voltar à aba
     refetchOnReconnect: true, // Refaz a busca ao reconectar à rede
-    staleTime: 300000, // Os dados serão considerados frescos por 5 minutos
-    cacheTime: 600000, // Os dados em cache serão mantidos por 10 minutos
   });
 
   return (
