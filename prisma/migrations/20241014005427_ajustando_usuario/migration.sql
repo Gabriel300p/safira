@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Usuario" ALTER COLUMN "atualizadoEm" SET DEFAULT CURRENT_TIMESTAMP;
