@@ -17,10 +17,8 @@ import {
   PiTable,
 } from "react-icons/pi";
 import { z } from "zod";
-import {
-  DialogForm,
-  DialogFormContent,
-} from "../../../../../components/form/dialogForm";
+
+import { DialogForm, DialogFormContent } from "@/components/form/dialogForm";
 import { createAnimal, useUpdateAnimal } from "../../utils/animal-functions";
 import { Animal, animalSchema } from "../../utils/schema";
 import { AnimaisFormProps } from "../../utils/types";
