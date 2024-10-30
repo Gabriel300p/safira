@@ -1,6 +1,5 @@
 "use client";
 
-import { DialogForm, DialogFormContent } from "@/components/form/dialogForm";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { toast } from "@/hooks/use-toast";
@@ -19,10 +18,10 @@ import {
 } from "react-icons/pi";
 import { z } from "zod";
 import {
-  createAnimal,
-  updateAnimal,
-  useUpdateAnimal,
-} from "../../utils/animal-functions";
+  DialogForm,
+  DialogFormContent,
+} from "../../../../../components/form/dialogForm";
+import { createAnimal, useUpdateAnimal } from "../../utils/animal-functions";
 import { Animal, animalSchema } from "../../utils/schema";
 import { AnimaisFormProps } from "../../utils/types";
 import { DadosCadastrais } from "./dados-cadastrais";
