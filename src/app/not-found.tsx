@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col flex-1 gap-5 justify-center items-center h-full">
+    <div className="flex flex-col flex-1 gap-5 justify-center items-center h-screen py-20">
       <h2 className="text-2xl text-neutral-700 font-semibold">
         Tela não encontrada
       </h2>

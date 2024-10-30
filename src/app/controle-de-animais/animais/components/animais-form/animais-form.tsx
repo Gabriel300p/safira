@@ -1,9 +1,8 @@
 "use client";
 
-import { DialogForm, DialogFormContent } from "@/components/form/DialogForm";
+import { DialogForm, DialogFormContent } from "@/components/form/dialogForm";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { ToastAction } from "@/components/ui/toast";
 import { toast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -49,25 +48,28 @@ export default function AnimaisForm({
       sexo: animalDataClick?.sexo || undefined,
       porte: animalDataClick?.porte || undefined,
       castrado: animalDataClick?.castrado || false,
-      vacinado: animalDataClick?.vacinado || false,
+      // vacinado: animalDataClick?.vacinado || false,
       adestrado: animalDataClick?.adestrado || false,
       obito: animalDataClick?.obito || false,
       microchip: animalDataClick?.microchip || false,
       adotado: animalDataClick?.adotado || false,
-      dataNascimento: animalDataClick?.dataNascimento || undefined,
+      dataNascimento: animalDataClick?.dataNascimento
+        ? new Date(animalDataClick.dataNascimento)
+        : undefined,
       racaId: animalDataClick?.raca?.id || undefined,
       tutorId: animalDataClick?.tutor?.id || undefined,
       observacao: animalDataClick?.observacao || "",
-      // vacinaAnimal: animalDataClick?.vacinaAnimal || [],
+      vacinasProvisorio: animalDataClick?.vacinasProvisorio || "",
     },
   });
 
   const createMutation = useMutation(createAnimal, {
     onSuccess: () => {
       queryClient.invalidateQueries(["animals"]);
+      onClose();
       toast({
         title: "Animal criado com sucesso",
-        description: "Recarregue a lista de animais se não for exibido.",
+        description: "O animal foi adicionado à lista.",
         variant: "success",
       });
     },
@@ -86,8 +88,8 @@ export default function AnimaisForm({
       queryClient.invalidateQueries(["animals"]);
       onClose();
       toast({
-        title: "Animal alterado com sucesso",
-        description: "Recarregue a lista de animais se não for exibido.",
+        title: "Animal atualizado com sucesso",
+        description: "As alterações foram salvas.",
         variant: "success",
       });
     },
@@ -102,14 +104,12 @@ export default function AnimaisForm({
   });
 
   const onSubmit = async (values: z.infer<typeof animalSchema>) => {
-    console.log("Caiu aqui");
     try {
       if (animalId) {
         await updateMutation.mutateAsync(values);
-        console.log(values, "Dados");
+        console.log(values);
       } else {
         await createMutation.mutateAsync(values);
-        onClose();
       }
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -121,9 +121,9 @@ export default function AnimaisForm({
       case 1:
         return <DadosCadastrais formControl={form.control} />;
       case 2:
-        return <DadosComplementares form={form} />;
+        return <DadosComplementares formControl={form.control} />;
       case 3:
-        return <Vacinas form={form} vacinas={vacinas} />;
+        return <Vacinas formControl={form.control} vacinas={vacinas} />;
       default:
         return null;
     }

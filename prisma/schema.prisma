@@ -46,7 +46,6 @@ model Animal {
   id                Int            @id @default(autoincrement())
   nome              String
   castrado          Boolean
-  vacinado          Boolean
   adestrado         Boolean
   microchip         Boolean
   obito             Boolean

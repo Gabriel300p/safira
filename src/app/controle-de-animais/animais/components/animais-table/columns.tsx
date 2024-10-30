@@ -2,6 +2,8 @@ import TableHeader from "@/components/table/columnSort";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ColumnDef } from "@tanstack/react-table";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import { PiCat, PiDog } from "react-icons/pi";
 import { Animal } from "../../utils/schema";
 import AnimalTableActions from "./actions";

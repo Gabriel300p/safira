@@ -1,4 +1,20 @@
+// import { useRacaContext } from "@/app/configuracoes/raca/utils/raca-context";
 import { PiCat, PiCircleFill, PiDog } from "react-icons/pi";
+
+// const { racas, isLoading, error } = useRacaContext();
+
+// export const racasOptions =
+//   !isLoading && !error && racas
+//     ? racas.map((raca) => ({
+//         label: raca.nome,
+//         value: raca.id,
+//       }))
+//     : [
+//         {
+//           label: "Carregando...",
+//           value: "Carregando...",
+//         },
+//       ];
 
 export const adocao = [
   {

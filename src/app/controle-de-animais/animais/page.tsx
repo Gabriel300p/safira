@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function Animais() {
   return (
-    <div className="mt-20 min-h-screen">
+    <div>
       <TutorProvider>
         <RacaProvider>
           <AnimalProvider>
@@ -28,7 +28,7 @@ export default function Animais() {
                 </>
               }
             />
-            <div className="my-3 mx-4 px-4 md:px-6 pt-4 sm:pt-6 pb-5 bg-white rounded-md border border-neutral-200 flex-col gap-5 flex w-full">
+            <div className="my-3 mx-4 px-4 md:px-6 pt-4 sm:pt-6 pb-5 bg-white rounded-md border border-neutral-200 flex-col gap-5 flex ">
               <Content />
             </div>
           </AnimalProvider>

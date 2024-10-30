@@ -15,20 +15,18 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { SwitchWithLabels } from "@/components/ui/switch";
-import { UseFormReturn } from "react-hook-form";
-import { Animal } from "../../utils/schema";
 
 interface DadosComplementaresProps {
-  form: UseFormReturn<Animal>;
+  formControl: any;
 }
 
-export function DadosComplementares({ form }: DadosComplementaresProps) {
+export function DadosComplementares({ formControl }: DadosComplementaresProps) {
   const { tutors } = useTutorContext();
 
   return (
-    <div className="space-y-5 mt-3">
+    <div className="space-y-5 mt-3 ml-1">
       <FormField
-        control={form.control}
+        control={formControl}
         name="castrado"
         render={({ field }) => (
           <FormItem className="flex justify-between items-center space-x-3 space-y-0">
@@ -46,7 +44,7 @@ export function DadosComplementares({ form }: DadosComplementaresProps) {
       />
       <Separator className="bg-neutral-200 h-[1px]" />
       <FormField
-        control={form.control}
+        control={formControl}
         name="adestrado"
         render={({ field }) => (
           <FormItem className="flex justify-between items-center space-x-3 space-y-0">
@@ -64,7 +62,7 @@ export function DadosComplementares({ form }: DadosComplementaresProps) {
       />
       <Separator className="bg-neutral-200 h-[1px]" />
       <FormField
-        control={form.control}
+        control={formControl}
         name="microchip"
         render={({ field }) => (
           <FormItem className="flex justify-between items-center space-x-3 space-y-0">
@@ -82,7 +80,7 @@ export function DadosComplementares({ form }: DadosComplementaresProps) {
       />
       <Separator className="bg-neutral-200 h-[1px]" />
       <FormField
-        control={form.control}
+        control={formControl}
         name="adotado"
         render={({ field }) => (
           <div className="flex flex-col gap-4">
@@ -100,7 +98,7 @@ export function DadosComplementares({ form }: DadosComplementaresProps) {
 
             {field.value && (
               <FormField
-                control={form.control}
+                control={formControl}
                 name="tutorId"
                 render={({ field }) => (
                   <FormItem>
@@ -131,7 +129,7 @@ export function DadosComplementares({ form }: DadosComplementaresProps) {
       />
       <Separator className="bg-neutral-200 h-[1px]" />
       <FormField
-        control={form.control}
+        control={formControl}
         name="obito"
         render={({ field }) => (
           <FormItem className="flex justify-between items-center space-x-3 space-y-0">

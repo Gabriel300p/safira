@@ -25,9 +25,7 @@ const fetchAnimalById = async (id: number): Promise<Animal> => {
 };
 
 // Função para criar um novo animal
-const createAnimal = async (
-  animalData: Omit<Animal, "id">
-): Promise<Animal> => {
+const createAnimal = async (animalData: Animal): Promise<Animal> => {
   try {
     const response = await axios.post<Animal>("/api/animal", animalData);
     return response.data;

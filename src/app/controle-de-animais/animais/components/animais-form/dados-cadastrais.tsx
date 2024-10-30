@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Control } from "react-hook-form";
 import { PiCat, PiDog } from "react-icons/pi";
 import Datepicker from "react-tailwindcss-datepicker";
@@ -41,8 +41,8 @@ export function DadosCadastrais({ formControl }: DadosCadastraisProps) {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-center w-full">
+    <div className="space-y-4 ml-1 mb-2">
+      {/* <div className="flex items-center justify-center w-full">
         <label htmlFor="image-upload" className="cursor-pointer">
           <div className="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center text-gray-500">
             {imagePreview ? (
@@ -63,7 +63,7 @@ export function DadosCadastrais({ formControl }: DadosCadastraisProps) {
           className="hidden"
           onChange={handleImageUpload}
         />
-      </div>
+      </div> */}
       <FormField
         control={formControl}
         name="nome"
@@ -190,11 +190,10 @@ export function DadosCadastrais({ formControl }: DadosCadastraisProps) {
             </FormLabel>
             <FormControl>
               <Datepicker
-                value={
-                  field.value
-                    ? { startDate: field.value, endDate: field.value }
-                    : null
-                }
+                value={{
+                  startDate: field.value ? new Date(field.value) : null,
+                  endDate: field.value ? new Date(field.value) : null,
+                }}
                 useRange={false}
                 asSingle={true}
                 placeholder="dd/mm/aaaa"

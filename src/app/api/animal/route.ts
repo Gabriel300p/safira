@@ -7,12 +7,15 @@ export async function GET() {
       porte: true,
       sexo: true,
       tipo: true,
-      vacinado: true,
+      // vacinado: true,
+      adestrado: true,
       castrado: true,
       obito: true,
       microchip: true,
       adotado: true,
+      observacao: true,
       dataNascimento: true,
+      vacinasProvisorio: true,
       raca: {
         select: {
           id: true,
@@ -45,15 +48,20 @@ export async function PUT(req: Request) {
       ...(body.porte && { porte: body.porte }),
       ...(body.sexo && { sexo: body.sexo }),
       ...(body.tipo && { tipo: body.tipo }),
-      ...(body.vacinado !== undefined && { vacinado: body.vacinado }),
+      // ...(body.vacinado !== undefined && { vacinado: body.vacinado }),
       ...(body.castrado !== undefined && { castrado: body.castrado }),
       ...(body.obito !== undefined && { obito: body.obito }),
       ...(body.microchip !== undefined && { microchip: body.microchip }),
+      ...(body.adestrado !== undefined && { adestrado: body.adestrado }),
       ...(body.adotado !== undefined && { adotado: body.adotado }),
       ...(body.dataNascimento && { dataNascimento: body.dataNascimento }),
       ...(body.racaId !== undefined && { racaId: body.racaId }),
       ...(body.tutorId !== undefined && { tutorId: body.tutorId }),
       ...(body.imagem && { imagem: body.imagem }),
+      ...(body.observacao && { observacao: body.observacao }),
+      ...(body.vacinasProvisorio && {
+        vacinasProvisorio: body.vacinasProvisorio,
+      }),
     };
 
     const user = await db.animal.update({
@@ -93,7 +101,6 @@ export async function DELETE(req: Request) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-
     const tutorIdAdotado = body.adotado === false && 2;
     const user = await db.animal.create({
       data: {
@@ -101,12 +108,12 @@ export async function POST(req: Request) {
         porte: body.porte,
         sexo: body.sexo,
         tipo: body.tipo,
-        vacinado: body.vacinado,
         adestrado: body.adestrado,
         castrado: body.castrado,
         obito: body.obito,
         microchip: body.microchip,
         adotado: body.adotado,
+        vacinasProvisorio: body.vacinasProvisorio,
         raca: {
           connect: {
             id: body.racaId,
@@ -124,6 +131,7 @@ export async function POST(req: Request) {
           },
         },
         imagem: body.imagem,
+        observacao: body.observacao,
       },
     });
     return new Response(JSON.stringify(user), { status: 200 });
