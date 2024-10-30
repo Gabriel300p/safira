@@ -3,6 +3,7 @@
 import { DialogForm, DialogFormContent } from "@/components/form/DialogForm";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
+import { ToastAction } from "@/components/ui/toast";
 import { toast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -63,9 +64,10 @@ export default function AnimaisForm({
 
   const createMutation = useMutation(createAnimal, {
     onSuccess: () => {
+      queryClient.invalidateQueries(["animals"]);
       toast({
         title: "Animal criado com sucesso",
-        description: "O animal foi adicionado à lista.",
+        description: "Recarregue a lista de animais se não for exibido.",
         variant: "success",
       });
     },
@@ -84,7 +86,9 @@ export default function AnimaisForm({
       queryClient.invalidateQueries(["animals"]);
       onClose();
       toast({
-        title: "Animal atualizado com sucesso",
+        title: "Animal alterado com sucesso",
+        description: "Recarregue a lista de animais se não for exibido.",
+        variant: "success",
       });
     },
     onError: (error) => {
@@ -98,10 +102,11 @@ export default function AnimaisForm({
   });
 
   const onSubmit = async (values: z.infer<typeof animalSchema>) => {
+    console.log("Caiu aqui");
     try {
       if (animalId) {
         await updateMutation.mutateAsync(values);
-        console.log(values);
+        console.log(values, "Dados");
       } else {
         await createMutation.mutateAsync(values);
         onClose();

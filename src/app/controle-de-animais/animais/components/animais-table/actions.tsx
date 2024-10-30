@@ -88,7 +88,6 @@ export default function AnimalTableActions({
 
     try {
       await updateAnimalMutate({
-        // @ts-expect-error
         id: animal.id || 0,
         ...animal,
         adotado: true,
@@ -112,7 +111,6 @@ export default function AnimalTableActions({
   const handleObitoAnimal = async () => {
     try {
       await updateAnimalMutate({
-        // @ts-expect-error
         id: animal.id || 0,
         ...animal,
         obito: true,

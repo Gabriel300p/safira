@@ -17,7 +17,7 @@ const animalSchema = z
     obito: z.boolean().optional(),
     microchip: z.boolean().optional(),
     adotado: z.boolean().optional(),
-    dataNascimento: z.date().optional().nullable(), // Allow null for optional date
+    dataNascimento: z.date().optional(),
     racaId: z.number().min(1, { message: "Raça é obrigatória." }),
     raca: z
       .object({

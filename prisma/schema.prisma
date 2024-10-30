@@ -43,38 +43,38 @@ enum TIPO_ANIMAL {
 }
 
 model Animal {
-  id             Int            @id @default(autoincrement())
-  nome           String
-  castrado       Boolean
-  vacinado       Boolean
-  adestrado      Boolean
-  microchip      Boolean
-  obito          Boolean
-  adotado        Boolean
-  porte          PORTE
-  sexo           SEXO
-  tipo           TIPO_ANIMAL
-  observacao     String?
-  imagem         String?
-  dataNascimento DateTime?
-  raca           Raca           @relation(fields: [racaId], references: [id])
-  usuario        Usuario        @relation(fields: [usuarioId], references: [id])
-  tutor          Tutor          @relation(fields: [tutorId], references: [id])
-  criadoEm       DateTime       @default(now())
-  atualizadoEm   DateTime       @default(now()) @updatedAt
-  racaId         Int
-  usuarioId      Int
-  tutorId        Int
-  VacinaAnimal   VacinaAnimal[]
+  id                Int            @id @default(autoincrement())
+  nome              String
+  castrado          Boolean
+  vacinado          Boolean
+  adestrado         Boolean
+  microchip         Boolean
+  obito             Boolean
+  adotado           Boolean
+  porte             PORTE
+  sexo              SEXO
+  tipo              TIPO_ANIMAL
+  observacao        String?
+  imagem            String?
+  dataNascimento    DateTime?
+  vacinasProvisorio String?
+  raca              Raca           @relation(fields: [racaId], references: [id])
+  usuario           Usuario        @relation(fields: [usuarioId], references: [id])
+  tutor             Tutor          @relation(fields: [tutorId], references: [id])
+  criadoEm          DateTime       @default(now())
+  atualizadoEm      DateTime       @default(now()) @updatedAt
+  racaId            Int
+  usuarioId         Int
+  tutorId           Int
+  VacinaAnimal      VacinaAnimal[]
 }
 
 model Vacina {
   id           Int            @id @default(autoincrement())
   nome         String
   tipo         String?
-  ultima       DateTime?
-  proxima      DateTime?
   observacao   String?
+  especie      TIPO_ANIMAL
   usuario      Usuario        @relation(fields: [usuarioId], references: [id])
   criadoEm     DateTime       @default(now())
   atualizadoEm DateTime       @default(now()) @updatedAt
@@ -83,11 +83,13 @@ model Vacina {
 }
 
 model VacinaAnimal {
-  id           Int      @id @default(autoincrement())
-  vacina       Vacina   @relation(fields: [vacinaId], references: [id])
-  animal       Animal   @relation(fields: [animalId], references: [id])
-  criadoEm     DateTime @default(now())
-  atualizadoEm DateTime @default(now()) @updatedAt
+  id           Int       @id @default(autoincrement())
+  ultima       DateTime?
+  proxima      DateTime?
+  vacina       Vacina    @relation(fields: [vacinaId], references: [id])
+  animal       Animal    @relation(fields: [animalId], references: [id])
+  criadoEm     DateTime  @default(now())
+  atualizadoEm DateTime  @default(now()) @updatedAt
   vacinaId     Int
   animalId     Int
 }
