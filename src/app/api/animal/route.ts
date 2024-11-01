@@ -1,5 +1,15 @@
+import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { getServerSession } from "next-auth";
 export async function GET() {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user?.email) {
+    return new Response(JSON.stringify({ error: "Não autorizado" }), {
+      status: 401,
+    });
+  }
+
   const user = await db.animal.findMany({
     select: {
       id: true,
@@ -40,6 +50,14 @@ export async function GET() {
 }
 
 export async function PUT(req: Request) {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user?.email) {
+    return new Response(JSON.stringify({ error: "Não autorizado" }), {
+      status: 401,
+    });
+  }
+
   try {
     const body = await req.json();
 
@@ -82,6 +100,14 @@ export async function PUT(req: Request) {
 }
 
 export async function DELETE(req: Request) {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user?.email) {
+    return new Response(JSON.stringify({ error: "Não autorizado" }), {
+      status: 401,
+    });
+  }
+
   try {
     const body = await req.json();
     const user = await db.animal.delete({
@@ -102,6 +128,14 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const tutorIdAdotado = body.adotado === false && 2;
+    const session = await getServerSession(authOptions);
+
+    if (!session || !session.user?.email) {
+      return new Response(JSON.stringify({ error: "Não autorizado" }), {
+        status: 401,
+      });
+    }
+
     const user = await db.animal.create({
       data: {
         nome: body.nome,
@@ -122,7 +156,7 @@ export async function POST(req: Request) {
         dataNascimento: body.dataNascimento,
         usuario: {
           connect: {
-            id: 2,
+            id: Number(session.user.id),
           },
         },
         tutor: {

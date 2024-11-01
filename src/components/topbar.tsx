@@ -1,9 +1,11 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 import {
   PiBellRinging,
   PiCaretDownBold,
@@ -41,24 +43,52 @@ const fetchUser = async (): Promise<User> => {
 };
 
 export default function Topbar({ title, subtitle }: Links) {
-  const { data, isLoading, error } = useQuery<User, Error>({
+  const router = useRouter();
+  const { data: session, status } = useSession();
+  const queryClient = useQueryClient();
+
+  if (session === null) {
+    router.push("/auth/login");
+  }
+
+  const {
+    data: userData,
+    isLoading,
+    error,
+  } = useQuery<User, Error>({
     queryKey: ["user"],
     queryFn: fetchUser,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-    staleTime: 5 * 60 * 1000,
-    cacheTime: 10 * 60 * 1000,
+    enabled: !!session,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    cacheTime: 10 * 60 * 1000, // 10 minutes
   });
 
-  const firstLetter = data
-    ? data.nome.charAt(0) + data.sobrenome.charAt(0)
+  useEffect(() => {
+    if (status === "authenticated") {
+      queryClient.invalidateQueries(["user"]);
+    }
+  }, [status, queryClient]);
+
+  const firstLetter = userData
+    ? userData.nome.charAt(0) + userData.sobrenome.charAt(0)
     : "?";
 
   if (error) {
     console.error("Erro ao buscar o usuário", error);
   }
 
+  const handleLogout = async () => {
+    try {
+      await signOut({ redirect: false });
+      queryClient.clear();
+      router.push("/auth/login");
+    } catch (error) {
+      console.error("Erro ao fazer logout", error);
+    }
+  };
+
   return (
-    <div className="px-6 py-5 bg-white justify-between items-center flex rounded-xl   z-50 border-b border-neutral-300 shadow backdrop-blur ">
+    <div className="px-6 py-5 bg-white justify-between items-center flex rounded-xl z-50 border-b border-neutral-300 shadow backdrop-blur">
       <div className="justify-start items-center gap-2 flex">
         <div className="justify-start items-center gap-2 hidden md:flex">
           {subtitle}
@@ -71,7 +101,7 @@ export default function Topbar({ title, subtitle }: Links) {
         </span>
       </div>
 
-      <div className="items-center gap-4 flex ">
+      <div className="items-center gap-4 flex">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <div className="hover:bg-neutral-100 transition-all duration-200 ease-in-out rounded-lg cursor-pointer">
@@ -88,7 +118,7 @@ export default function Topbar({ title, subtitle }: Links) {
         <Separator orientation="vertical" className="bg-neutral-200 h-8" />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            {isLoading ? (
+            {isLoading || status === "loading" ? (
               <div className="flex items-center gap-2">
                 <Skeleton className="h-10 w-10 rounded-full" />
                 <div className="space-y-2 hidden sm:block">
@@ -105,12 +135,12 @@ export default function Topbar({ title, subtitle }: Links) {
                   </Avatar>
                   <div className="grow shrink basis-0 flex-col justify-start items-start hidden md:inline-flex gap-1">
                     <div className="text-neutral-700 text-sm font-semibold leading-tight tracking-wide">
-                      {data
-                        ? `${data.nome} ${data.sobrenome}`
+                      {userData
+                        ? `${userData.nome} ${userData.sobrenome}`
                         : "Erro ao carregar"}
                     </div>
                     <div className="text-gray-500 text-xs font-normal tracking-normal truncate">
-                      {data ? data.email : "Erro ao carregar"}
+                      {userData ? userData.email : "Erro ao carregar"}
                     </div>
                   </div>
                 </div>
@@ -130,7 +160,7 @@ export default function Topbar({ title, subtitle }: Links) {
               </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
               <PiSignOut className="mr-2 h-4 w-4" />
               <span>Sair</span>
             </DropdownMenuItem>

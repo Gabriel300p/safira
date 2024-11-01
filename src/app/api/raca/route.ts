@@ -1,7 +1,17 @@
+import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { getServerSession } from "next-auth";
 import { z } from "zod";
 
 export async function POST(req: Request) {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user?.email) {
+    return new Response(JSON.stringify({ error: "Não autorizado" }), {
+      status: 401,
+    });
+  }
+
   try {
     const body = await req.json();
 
@@ -22,6 +32,14 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
+  const session = await getServerSession(authOptions);
+
+  if (!session || !session.user?.email) {
+    return new Response(JSON.stringify({ error: "Não autorizado" }), {
+      status: 401,
+    });
+  }
+
   const racas = await db.raca.findMany({ orderBy: { nome: "asc" } });
   return new Response(JSON.stringify(racas), { status: 200 });
 }
