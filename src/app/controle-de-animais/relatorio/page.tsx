@@ -1,11 +1,11 @@
 import Topbar from "@/components/topbar";
 import { PiPawPrint } from "react-icons/pi";
 
-export default function Tutores() {
+export default function page() {
   return (
     <>
       <Topbar
-        title="Tutores"
+        title="Relatórios"
         subtitle={
           <>
             <PiPawPrint size={20} className="text-neutral-500" />

@@ -24,18 +24,16 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body
-        className={`${inter.className} antialiased bg-neutral-950 flex w-full min-h-screen
+        className={`${inter.className} antialiased bg-neutral-950 flex min-h-screen 
           `}
       >
         <Providers>
-          {/* <ProtectedLayout> */}
           <Sidebar />
           <div className="bg-neutral-100 rounded-xl flex flex-col w-full">
             {children}
           </div>
-          <Toaster />
-          {/* </ProtectedLayout> */}
         </Providers>
+        <Toaster />
       </body>
       {/* <body
         className={`${inter.className} antialiased bg-neutral-950 flex justify-end min-h-screen  relative inset-0 left-0 overflow-x-hidden sm:overflow-x-auto mb-5`}

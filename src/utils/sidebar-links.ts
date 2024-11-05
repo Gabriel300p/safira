@@ -22,17 +22,16 @@ type SectionItem = LinkItem & {
 // Create the links object
 const sidebarLinks: SectionItem[] = [
   {
-    name: "Início",
-    href: "/",
-    icon: PiHouse,
-    type: "single",
-  },
-  {
     name: "Controle de animais",
     href: "/controle-de-animais",
     icon: PiPawPrint,
     type: "dropdown",
     children: [
+      {
+        name: "Relatório",
+        href: "/controle-de-animais/relatorio",
+        icon: PiPawPrint,
+      },
       {
         name: "Animais",
         href: "/controle-de-animais/animais",
@@ -56,6 +55,11 @@ const sidebarLinks: SectionItem[] = [
     icon: PiCoins,
     type: "dropdown",
     children: [
+      {
+        name: "Relatório",
+        href: "/controle-financeiro/relatorio",
+        icon: PiCoins,
+      },
       {
         name: "Receitas e despesas",
         href: "/controle-financeiro/receitas-e-despesas",

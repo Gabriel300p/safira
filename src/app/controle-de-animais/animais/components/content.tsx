@@ -32,8 +32,8 @@ const Content: FC = ({}) => {
     : "Não disponível";
 
   return (
-    <div className="flex flex-col gap-5">
-      <div className="justify-between items-center flex flex-col md:flex-row w-full">
+    <>
+      <div className="justify-between items-center flex gap-1 flex-col md:flex-row w-full">
         <div className="sm:items-center gap-4 lg:gap-8 flex flex-col sm:flex-row w-full">
           <div className="flex-col sm:justify-center items-start gap-1 flex">
             <div className="items-center gap-2 flex">
@@ -128,7 +128,7 @@ const Content: FC = ({}) => {
       <div className="w-[360px] sm:w-full">
         <DataTable columns={columns} data={animals || []} />
       </div>
-    </div>
+    </>
   );
 };
 

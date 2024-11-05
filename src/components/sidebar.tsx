@@ -75,7 +75,11 @@ function SidebarItems({
           ) : (
             <>
               {open ? (
-                <Accordion type="single" collapsible>
+                <Accordion
+                  type="single"
+                  collapsible
+                  defaultValue={activeItems[item.href] ? "item-1" : undefined}
+                >
                   <AccordionItem value="item-1">
                     <AccordionTrigger
                       className={`${
@@ -208,7 +212,7 @@ export default function Sidebar() {
       }
     };
 
-    handleResize(); // Verifica no primeiro render
+    handleResize();
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
