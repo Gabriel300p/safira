@@ -2,8 +2,8 @@ import { Filter } from "@/components/table/filter";
 import { Input } from "@/components/ui/input";
 import { Table } from "@tanstack/react-table";
 import { FC } from "react";
-import { PiHandHeart, PiMapPin } from "react-icons/pi";
-import { adocao } from "../../utils/options";
+import { PiMapPin } from "react-icons/pi";
+
 import { Tutor } from "../../utils/schema";
 
 interface ToolbarProps {

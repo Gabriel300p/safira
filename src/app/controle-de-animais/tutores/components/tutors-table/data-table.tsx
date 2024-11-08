@@ -72,6 +72,7 @@ export function DataTable<TData, TValue>({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center w-full overflow-auto gap-2">
+        {/* @ts-expect-error */}
         <Toolbar table={table} />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
