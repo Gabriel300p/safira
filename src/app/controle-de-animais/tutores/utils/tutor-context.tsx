@@ -25,6 +25,10 @@ export function TutorProvider({ children }: { children: ReactNode }) {
     queryFn: fetchTutors,
     retryOnMount: true,
     keepPreviousData: true,
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
+    staleTime: 0,
+    cacheTime: 0,
   });
 
   return (

@@ -13,8 +13,6 @@ export async function authenticate(
       redirect: false,
     });
 
-    console.log("Resultado do signIn:", result);
-
     if (result?.error) {
       console.error("Erro de autenticação:", result.error);
       return "Credenciais inválidas.";

@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
-import { outrosLinks, sidebarLinks } from "@/utils/sidebar-links";
+import { outrosLinks, sidebarLinks } from "@/content/sidebar-links";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

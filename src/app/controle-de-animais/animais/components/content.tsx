@@ -14,14 +14,15 @@ import {
 import { FC, useState } from "react";
 import { PiPlusCircleFill, PiQuestion } from "react-icons/pi";
 import AnimaisForm from "./animais-form/animais-form";
-import AnimaisLoading from "./animais-loading";
+
+import PageLoading from "@/components/page-loading";
 import { columns } from "./animais-table/columns";
 import { DataTable } from "./animais-table/data-table";
 
 const Content: FC = ({}) => {
   const { animals, isLoading, error, dataUpdatedAt } = useAnimalContext();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  if (isLoading) return <AnimaisLoading />;
+  if (isLoading) return <PageLoading />;
   if (error) return <div>Erro: {error.message}</div>;
 
   const adoptedAnimals = animals?.filter((animal) => animal.adotado) || [];

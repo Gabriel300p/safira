@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function AnimaisLoading() {
+export default function PageLoading() {
   return (
     <div className="flex flex-col gap-8 w-full">
       <div className="flex items-center gap-2 justify-between w-full">

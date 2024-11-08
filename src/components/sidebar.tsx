@@ -1,6 +1,6 @@
 "use client";
 
-import { outrosLinks, sidebarLinks } from "@/utils/sidebar-links";
+import { outrosLinks, sidebarLinks } from "@/content/sidebar-links";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";

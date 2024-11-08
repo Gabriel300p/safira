@@ -25,7 +25,7 @@ const fetchAnimalById = async (id: number): Promise<Animal> => {
 };
 
 // Função para criar um novo animal
-const createAnimal = async (animalData: Animal): Promise<Animal> => {
+const useCreateAnimal = async (animalData: Animal): Promise<Animal> => {
   try {
     const response = await axios.post<Animal>("/api/animal", animalData);
     return response.data;
@@ -67,6 +67,15 @@ const updateAnimal = () => {
   });
 };
 
+const createAnimal = () => {
+  const queryClient = useQueryClient();
+  return useMutation((animalData: Animal) => useCreateAnimal(animalData), {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["animals"]);
+    },
+  });
+};
+
 const deleteAnimal = () => {
   const queryClient = useQueryClient();
   return useMutation((id: number) => useDeleteAnimal(id), {
@@ -82,5 +91,6 @@ export {
   fetchAnimalById,
   fetchAnimals,
   updateAnimal,
+  useCreateAnimal,
   useUpdateAnimal,
 };

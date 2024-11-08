@@ -19,7 +19,11 @@ import {
 import { z } from "zod";
 
 import { DialogForm, DialogFormContent } from "@/components/form/ModalForm";
-import { createAnimal, useUpdateAnimal } from "../../utils/animal-functions";
+import {
+  createAnimal,
+  useCreateAnimal,
+  useUpdateAnimal,
+} from "../../utils/animal-functions";
 import { Animal, animalSchema } from "../../utils/schema";
 import { AnimaisFormProps } from "../../utils/types";
 import { DadosCadastrais } from "./dados-cadastrais";
@@ -45,7 +49,6 @@ export default function AnimaisForm({
       sexo: animalDataClick?.sexo || undefined,
       porte: animalDataClick?.porte || undefined,
       castrado: animalDataClick?.castrado || false,
-      // vacinado: animalDataClick?.vacinado || false,
       adestrado: animalDataClick?.adestrado || false,
       obito: animalDataClick?.obito || false,
       microchip: animalDataClick?.microchip || false,
@@ -60,7 +63,7 @@ export default function AnimaisForm({
     },
   });
 
-  const createMutation = useMutation(createAnimal, {
+  const createMutation = useMutation(useCreateAnimal, {
     onSuccess: () => {
       queryClient.invalidateQueries(["animals"]);
       onClose();
@@ -104,7 +107,6 @@ export default function AnimaisForm({
     try {
       if (animalId) {
         await updateMutation.mutateAsync(values);
-        console.log(values);
       } else {
         await createMutation.mutateAsync(values);
       }

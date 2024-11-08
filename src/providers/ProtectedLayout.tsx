@@ -23,7 +23,5 @@ export default function ProtectedLayout({
     return <div>Carregando...</div>;
   }
 
-  console.log(status);
-
   return status === "authenticated" ? <>{children}</> : null;
 }

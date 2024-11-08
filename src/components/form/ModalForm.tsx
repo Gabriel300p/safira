@@ -60,7 +60,7 @@ const DialogFormContent = React.forwardRef<
       <DialogPrimitive.Content
         ref={ref}
         className={cn(
-          "fixed left-[50%] top-[50%] z-50 w-full max-w-[900px] h-[85vh] translate-x-[-50%] translate-y-[-50%] border border-neutral-200 bg-white shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
+          "fixed left-[50%] top-[50%] z-50 w-full max-w-[900px] h-fit  translate-x-[-50%] translate-y-[-50%] border border-neutral-200 bg-white shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg",
           className
         )}
         {...props}
@@ -98,7 +98,7 @@ const DialogFormContent = React.forwardRef<
           </div>
 
           {/* Right column (60%) */}
-          <div className="w-3/5 p-6 flex flex-col">
+          <div className="w-3/5 p-6 flex flex-col max-h-[calc(100vh-80px)]">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-lg font-semibold">
                 {tabs[currentStep - 1].label}

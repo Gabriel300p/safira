@@ -25,7 +25,7 @@ export const columns: ColumnDef<Animal>[] = [
             <AvatarFallback>{firstLetter}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col gap-0.5">
-            <div className="font-semibold text-neutral-700 text-base">
+            <div className="font-semibold text-neutral-700 text-sm">
               {animal.nome}
             </div>
             <div className="text-sm font-normal text-neutral-600">
@@ -41,11 +41,9 @@ export const columns: ColumnDef<Animal>[] = [
     header: ({ column }) => <TableHeader column={column} title="Tipo" />,
     cell: ({ row }) => {
       const tipo = row.getValue("tipo") as string;
-
       const formatTipo = (str: string) => {
         return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
       };
-
       const icon =
         tipo.toLowerCase() === "cachorro" ? (
           <PiDog className="h-4 w-4 mr-2" />
@@ -56,7 +54,7 @@ export const columns: ColumnDef<Animal>[] = [
       return (
         <div className="flex items-center justify-center">
           {icon}
-          <span className="font-medium text-base text-neutral-600">
+          <span className="font-medium text-sm text-neutral-600">
             {formatTipo(tipo)}
           </span>
         </div>
@@ -69,8 +67,12 @@ export const columns: ColumnDef<Animal>[] = [
     cell: ({ row }) => {
       const animal = row.original;
       return (
-        <div className="text-base font-medium text-center text-neutral-600">
-          {animal.tutor?.id === 2 ? "-" : animal.tutor?.nome}
+        <div className="text-sm font-medium text-center text-neutral-600">
+          {animal.tutor?.id === 2 ? (
+            <span className="text-neutral-400 font-normal">Sem tutor</span>
+          ) : (
+            animal.tutor?.nome
+          )}
         </div>
       );
     },
@@ -110,7 +112,7 @@ export const columns: ColumnDef<Animal>[] = [
       if (dataNascimentoNull) {
         return (
           <div className="flex items-center justify-center">
-            <span className="text-base font-medium text-neutral-600 text-center">
+            <span className="text-sm font-normal text-neutral-400 text-center">
               Não informado
             </span>
           </div>
@@ -119,7 +121,7 @@ export const columns: ColumnDef<Animal>[] = [
 
       return (
         <div className="flex items-center justify-center">
-          <span className="text-base font-medium text-neutral-600 text-center">
+          <span className="text-sm font-medium text-neutral-600 text-center">
             {idade} anos
           </span>
         </div>
@@ -134,7 +136,7 @@ export const columns: ColumnDef<Animal>[] = [
     cell: ({ row }) => {
       const atualizadoEm = new Date(row.getValue("atualizadoEm"));
       return (
-        <div className="text-base font-medium text-center text-neutral-600">
+        <div className="text-sm font-medium text-center text-neutral-600">
           {atualizadoEm.toLocaleDateString("pt-BR")} -{" "}
           {atualizadoEm.toLocaleTimeString("pt-BR")}
         </div>
