@@ -17,18 +17,5 @@ export async function register(
     throw new Error("Email já está em uso");
   }
 
-  const hashedSenha = await hash(senha, 10);
-
-  const newUser = await db.usuario.create({
-    data: {
-      nome,
-      sobrenome,
-      email,
-      senha: hashedSenha,
-    },
-  });
-
-  console.log("Novo usuário criado:", newUser);
-
   return { success: true };
 }
