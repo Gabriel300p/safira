@@ -1,27 +1,30 @@
 import { z } from "zod";
 
-const financeiroSchema = z
-  .object({
-    id: z.number().optional(),
-    nome: z.string().min(1, { message: "Nome é obrigatório." }),
-    valor: z.number().positive({ message: "Valor deve ser positivo." }),
-    recorrencia: z.enum(["DIARIA", "SEMANAL", "MENSAL", "ANUAL"], {
-      message: "Recorrência é obrigatória.",
-    }),
-    tipo: z.enum(["RECEITA", "DESPESA"], { message: "Tipo é obrigatório." }),
-    observacao: z.string().optional(),
-    data: z.date().optional().default(new Date()),
-    usuarioId: z.number({ message: "ID do usuário é obrigatório." }),
-    categoriaId: z.number({ message: "ID da categoria é obrigatório." }),
-    criadoEm: z.date().optional().default(new Date()),
-    atualizadoEm: z.date().optional(),
-  })
-  .refine((data) => data.valor > 0, {
-    message: "O valor deve ser maior que zero.",
-    path: ["valor"],
-  });
+export const financeiroSchema = z.object({
+  id: z.number().optional(),
+  nome: z.string().min(1, "Nome é obrigatório"),
+  valor: z.number().min(0, "Valor deve ser maior ou igual a zero"),
+  recorrencia: z.enum([
+    "UNICA",
+    "DIARIA",
+    "SEMANAL",
+    "MENSAL",
+    "BIMESTRAL",
+    "TRIMESTRAL",
+    "SEMESTRAL",
+    "ANUAL",
+  ]),
+  tipo: z.enum(["RECEITA", "DESPESA"]),
+  categoriaId: z.number().min(1, "Categoria é obrigatória"),
+  categoria: z
+    .object({
+      id: z.number(),
+      nome: z.string(),
+    })
+    .optional(),
+  observacao: z.string().optional(),
+  data: z.date(),
+  atualizadoEm: z.date().optional(),
+});
 
-type Financeiro = z.infer<typeof financeiroSchema>;
-
-export { financeiroSchema };
-export type { Financeiro };
+export type Financeiro = z.infer<typeof financeiroSchema>;
