@@ -34,7 +34,7 @@ interface User {
 
 interface TopbarProps {
   title: string;
-  subtitle: React.ReactNode;
+  subtitle?: React.ReactNode;
 }
 
 const fetchUser = async (): Promise<User> => {

@@ -1,5 +1,4 @@
 import Topbar from "@/components/topbar";
-import { PiGear, PiPawPrint } from "react-icons/pi";
 
 export default function Configuracoes() {
   return (
