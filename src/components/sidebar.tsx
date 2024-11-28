@@ -290,6 +290,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       ${open ? "w-72" : "w-20"}
     `;
 
+  if (pathname === "/auth/login") {
+    return;
+  }
+
   return (
     <nav className={sidebarClasses}>
       {!isMobile && (
