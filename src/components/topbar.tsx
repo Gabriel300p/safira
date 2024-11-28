@@ -35,7 +35,6 @@ interface User {
 interface TopbarProps {
   title: string;
   subtitle: React.ReactNode;
-  onMenuToggle: () => void;
 }
 
 const fetchUser = async (): Promise<User> => {
@@ -43,7 +42,7 @@ const fetchUser = async (): Promise<User> => {
   return res.data;
 };
 
-export default function Topbar({ title, subtitle, onMenuToggle }: TopbarProps) {
+export default function Topbar({ title, subtitle }: TopbarProps) {
   const router = useRouter();
   const { data: session, status } = useSession();
   const queryClient = useQueryClient();
