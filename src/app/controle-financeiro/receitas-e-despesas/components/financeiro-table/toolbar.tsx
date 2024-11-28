@@ -54,7 +54,7 @@ const Toolbar: FC<ToolbarProps> = ({ table }) => {
   };
 
   return (
-    <div className="flex items-center gap-2.5 w-full">
+    <div className="flex flex-col lg:flex-row items-start md:items-center gap-2.5 w-full">
       <Input
         placeholder="Pesquisar por nome..."
         value={(table.getColumn("nome")?.getFilterValue() as string) ?? ""}
@@ -63,7 +63,6 @@ const Toolbar: FC<ToolbarProps> = ({ table }) => {
         }
         className="max-w-xs"
       />
-
       <div>
         <Datepicker
           value={dateRange}
@@ -82,7 +81,6 @@ const Toolbar: FC<ToolbarProps> = ({ table }) => {
           onChange={handleDateChange}
         />
       </div>
-
       {table.getColumn("tipo") && (
         <Filter
           column={table.getColumn("tipo")}

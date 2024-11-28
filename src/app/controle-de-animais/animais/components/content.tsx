@@ -79,7 +79,7 @@ const Content: FC = ({}) => {
             orientation="vertical"
             className="bg-neutral-200 h-12 hidden sm:block"
           />
-          <div className="flex items-center justify-around sm:justify-normal gap-0 md:gap-4 lg:gap-8 mb-8 sm:mb-0">
+          <div className="flex items-center justify-around sm:justify-normal gap-0 md:gap-4 lg:gap-8 mb-5 sm:mb-0">
             <div className="flex-col justify-center items-center gap-1 inline-flex">
               <strong className="text-neutral-700 text-2xl font-semibold">
                 <NumberFlow
@@ -126,7 +126,7 @@ const Content: FC = ({}) => {
       <Separator className="bg-neutral-200 h-[1px]" />
 
       {/* Adicionando overflow-x-auto para permitir scroll horizontal */}
-      <div className="w-[360px] sm:w-full">
+      <div>
         <DataTable columns={columns} data={animals || []} />
       </div>
     </>

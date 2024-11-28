@@ -27,11 +27,11 @@ const sidebarLinks: SectionItem[] = [
     icon: PiPawPrint,
     type: "dropdown",
     children: [
-      {
-        name: "Relatório",
-        href: "/controle-de-animais/relatorio",
-        icon: PiPawPrint,
-      },
+      // {
+      //   name: "Relatório",
+      //   href: "/controle-de-animais/relatorio",
+      //   icon: PiPawPrint,
+      // },
       {
         name: "Animais",
         href: "/controle-de-animais/animais",
@@ -42,11 +42,11 @@ const sidebarLinks: SectionItem[] = [
         href: "/controle-de-animais/tutores",
         icon: PiPawPrint,
       },
-      {
-        name: "Vacinas",
-        href: "/controle-de-animais/vacinas",
-        icon: PiPawPrint,
-      },
+      // {
+      //   name: "Vacinas",
+      //   href: "/controle-de-animais/vacinas",
+      //   icon: PiPawPrint,
+      // },
     ],
   },
   {
@@ -55,11 +55,11 @@ const sidebarLinks: SectionItem[] = [
     icon: PiCoins,
     type: "dropdown",
     children: [
-      {
-        name: "Relatório",
-        href: "/controle-financeiro/relatorio",
-        icon: PiCoins,
-      },
+      // {
+      //   name: "Relatório",
+      //   href: "/controle-financeiro/relatorio",
+      //   icon: PiCoins,
+      // },
       {
         name: "Receitas e despesas",
         href: "/controle-financeiro/receitas-e-despesas",

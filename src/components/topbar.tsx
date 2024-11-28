@@ -32,9 +32,10 @@ interface User {
   id: number;
 }
 
-interface Links {
+interface TopbarProps {
   title: string;
-  subtitle?: React.ReactNode;
+  subtitle: React.ReactNode;
+  onMenuToggle: () => void;
 }
 
 const fetchUser = async (): Promise<User> => {
@@ -42,7 +43,7 @@ const fetchUser = async (): Promise<User> => {
   return res.data;
 };
 
-export default function Topbar({ title, subtitle }: Links) {
+export default function Topbar({ title, subtitle, onMenuToggle }: TopbarProps) {
   const router = useRouter();
   const { data: session, status } = useSession();
   const queryClient = useQueryClient();
@@ -59,8 +60,6 @@ export default function Topbar({ title, subtitle }: Links) {
     queryKey: ["user"],
     queryFn: fetchUser,
     enabled: !!session,
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    cacheTime: 10 * 60 * 1000, // 10 minutes
   });
 
   useEffect(() => {

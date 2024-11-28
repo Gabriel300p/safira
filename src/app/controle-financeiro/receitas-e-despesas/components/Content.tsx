@@ -166,8 +166,8 @@ const Content: FC = () => {
   if (error) return <div>Erro: {error.message}</div>;
 
   return (
-    <>
-      <div className="justify-between items-center flex gap-1 flex-col md:flex-row w-full">
+    <div className="flex flex-col gap-4">
+      <div className="justify-between items-center flex gap-4 flex-col  md:flex-row w-full">
         <div className="sm:items-center gap-4 lg:gap-8 flex flex-col sm:flex-row w-full">
           <div className="flex-col sm:justify-center items-start gap-1 flex">
             <div className="items-center gap-2 flex">
@@ -205,8 +205,8 @@ const Content: FC = () => {
         </div>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button>
-              <PiPlusCircleFill className="w-5 h-5 mr-2" />
+            <Button className="w-full md:w-fit">
+              <PiPlusCircleFill className="w-5 h-5" />
               Adicionar novo
             </Button>
           </DialogTrigger>
@@ -217,9 +217,10 @@ const Content: FC = () => {
       </div>
       {/* <Separator /> */}
 
-      <Card className="flex items-center gap-4 w-full">
-        <div className="w-[40%]">
-          <CardContent className="p-5">
+      <Card className="flex flex-row  items-center gap-1 lg:gap-4  overflow-auto w-full lg:w-fit">
+        {/* <div className="w-[40%]"> */}
+        <div>
+          <CardContent className="p-5 min-w-[260px]">
             <div className="flex items-center gap-4">
               <div className="flex flex-col gap-3 ">
                 <div className="flex items-center gap-3.5">
@@ -267,9 +268,10 @@ const Content: FC = () => {
             </div>
           </CardContent>
         </div>
-        <Separator orientation="vertical" className="bg-neutral-200 h-[70%]" />
-        <div className="w-[30%]">
-          <CardContent className="p-5">
+        <Separator orientation="vertical" className="bg-neutral-200 h-12 " />
+        {/* <div className="w-[30%]"> */}
+        <div>
+          <CardContent className="p-5 min-w-[260px]">
             <div className="flex items-center gap-4">
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-3.5">
@@ -308,9 +310,10 @@ const Content: FC = () => {
             </div>
           </CardContent>
         </div>
-        <Separator orientation="vertical" className="bg-neutral-200 h-12" />
-        <div className="w-[30%]">
-          <CardContent className="p-5">
+        <Separator orientation="vertical" className="bg-neutral-200 h-12 " />
+        {/* <div className="w-[30%]"> */}
+        <div>
+          <CardContent className="p-5 min-w-[260px]">
             <div className="flex items-center gap-4">
               <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-3.5">
@@ -354,7 +357,7 @@ const Content: FC = () => {
       <div className="w-full">
         <DataTable columns={columns} data={financeiros || []} />
       </div>
-    </>
+    </div>
   );
 };
 

@@ -28,23 +28,89 @@ type SidebarItem = {
   children?: Omit<SidebarItem, "type" | "children">[];
 };
 
-type SidebarSection = {
-  title: string;
-  items: SidebarItem[];
-};
-
 type SidebarItemsProps = {
   items: SidebarItem[];
   open: boolean;
   activeItems: Record<string, boolean>;
   pathname: string;
+  isMobile: boolean;
 };
+
 function SidebarItems({
   items,
   open,
   activeItems,
   pathname,
+  isMobile,
 }: SidebarItemsProps) {
+  if (isMobile) {
+    return (
+      <div className="flex justify-around w-full">
+        {items.map((item) => (
+          <div key={item.href} className="flex-shrink-0">
+            {item.type === "single" ? (
+              <Link
+                href={item.href}
+                className={`${
+                  pathname === item.href
+                    ? "bg-neutral-700"
+                    : "hover:bg-neutral-800 transition-all duration-200 ease-in-out"
+                } p-2 rounded-lg flex items-center justify-center`}
+              >
+                <item.icon
+                  size={24}
+                  className={`${
+                    pathname === item.href ? "text-primary" : "text-white"
+                  }`}
+                />
+              </Link>
+            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className={`${
+                      activeItems[item.href]
+                        ? "bg-neutral-700"
+                        : "hover:bg-neutral-800 hover:text-white transition-all duration-200 ease-in-out"
+                    } p-2 rounded-lg flex items-center justify-center text-white`}
+                  >
+                    <item.icon
+                      size={24}
+                      className={
+                        activeItems[item.href] ? "text-primary" : "text-white"
+                      }
+                    />{" "}
+                    <span className="text-xs ">{item.name}</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-48 h-fit bg-neutral-900 border-neutral-800">
+                  <ul className="flex flex-col gap-2 p-2">
+                    {item.children?.map((child) => (
+                      <li key={child.href}>
+                        <Link
+                          href={child.href}
+                          className="px-4 py-2 rounded-lg items-center gap-2.5 text-white flex flex-row text-sm hover:bg-neutral-800 transition-all duration-200 ease-in-out"
+                        >
+                          {pathname === child.href && (
+                            <>
+                              <div className="w-2 h-2 bg-primary rounded-full" />
+                            </>
+                          )}
+                          <span className="truncate">{child.name}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <>
       {items.map((item) => (
@@ -160,7 +226,6 @@ function SidebarItems({
                             {pathname === child.href && (
                               <div className="w-2 h-2 bg-primary rounded-full" />
                             )}
-
                             {child.name}
                           </Link>
                         </li>
@@ -176,10 +241,17 @@ function SidebarItems({
     </>
   );
 }
-export default function Sidebar() {
-  const [open, setOpen] = useState(true);
+
+interface SidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+  const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const [activeItems, setActiveItems] = useState<Record<string, boolean>>({});
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const newActiveItems: Record<string, boolean> = {};
@@ -194,22 +266,13 @@ export default function Sidebar() {
     setActiveItems(newActiveItems);
   }, [pathname]);
 
-  const allSections: SidebarSection[] = [
-    { title: "PRINCIPAL", items: sidebarLinks },
-    { title: "OUTROS", items: outrosLinks },
-  ];
-
-  const [isMobile, setIsMobile] = useState(false);
+  const allItems = [...sidebarLinks, ...outrosLinks];
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth <= 1440) {
-        setOpen(false);
-        setIsMobile(true);
-      } else {
-        setOpen(true);
-        setIsMobile(false);
-      }
+      const mobile = window.innerWidth < 1024;
+      setIsMobile(mobile);
+      setOpen(!mobile);
     };
 
     handleResize();
@@ -218,25 +281,26 @@ export default function Sidebar() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const sidebarClasses = isMobile
+    ? " bg-neutral-950 shadow-md"
+    : `
+      fixed inset-y-0 left-0 z-50 bg-neutral-950 transform transition-transform duration-300 ease-in-out rounded-r-xl
+      ${isOpen ? "translate-x-0" : "-translate-x-full"}
+      lg:relative lg:translate-x-0
+      ${open ? "w-72" : "w-20"}
+    `;
+
   return (
-    <>
-      <nav
-        className={`${
-          pathname === "/auth/login"
-            ? "hidden"
-            : open
-            ? "w-2/3 sm:w-1/5 xl:w-1/5 px-3 py-5 2xl:p-6 justify-start items-start"
-            : "w-16 px-2 py-5 sm:py-6 sm:px-3 lg:w-20 "
-        } h-full bg-neutral-950 rounded-xl border-r border-black/10 flex-col inline-flex gap-6 z-50`}
-      >
-        <div className="self-stretch justify-between items-center inline-flex">
-          {open ? (
+    <nav className={sidebarClasses}>
+      {!isMobile && (
+        <div className="flex justify-between items-center p-4">
+          {open && (
             <div className="text-[#ff8201] text-2xl font-bold">Safira</div>
-          ) : null}
+          )}
           <button
-            className={` ${
-              open ? "p-1.5" : "flex-grow shrink-0 p-2"
-            } bg-neutral-800 rounded-lg justify-center items-start gap-2 flex `}
+            className={`${
+              open ? "p-1.5" : "p-2"
+            } bg-neutral-800 rounded-lg flex items-center justify-center`}
             onClick={() => setOpen(!open)}
           >
             <PiCaretDoubleLeft
@@ -247,24 +311,23 @@ export default function Sidebar() {
             />
           </button>
         </div>
-        <Separator className="bg-neutral-700 mb-2" />
-        {allSections.map((section, index) => (
-          <div key={section.title} className="flex-col gap-3 flex w-full">
-            {index > 0 && <Separator className="bg-neutral-700 mb-3" />}
-            {open && (
-              <div className="text-neutral-500 text-xs font-medium uppercase leading-3 tracking-wide mb-2">
-                {section.title}
-              </div>
-            )}
-            <SidebarItems
-              items={section.items}
-              open={open}
-              activeItems={activeItems}
-              pathname={pathname}
-            />
-          </div>
-        ))}
-      </nav>
-    </>
+      )}
+      {!isMobile && <Separator className="bg-neutral-700 mb-4" />}
+      <div
+        className={
+          isMobile
+            ? "px-2 py-4 flex justify-around"
+            : "px-3 py-2 flex flex-col gap-6 overflow-y-auto"
+        }
+      >
+        <SidebarItems
+          items={allItems}
+          open={open}
+          activeItems={activeItems}
+          pathname={pathname}
+          isMobile={isMobile}
+        />
+      </div>
+    </nav>
   );
 }

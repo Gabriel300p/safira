@@ -30,8 +30,8 @@ const Content: FC = ({}) => {
 
   return (
     <>
-      <div className="justify-between items-center flex gap-1 flex-col md:flex-row ">
-        <div className="flex-col sm:justify-center items-start gap-1 flex">
+      <div className="justify-between items-center flex gap-4 flex-col md:flex-row ">
+        <div className="flex-col md:justify-center items-start gap-1 flex w-full">
           <div className="items-center gap-2 flex">
             <h1 className="text-neutral-700 text-2xl font-semibold leading-tight">
               Tutores
@@ -84,7 +84,7 @@ const Content: FC = ({}) => {
       <Separator className="bg-neutral-200 h-[1px]" />
 
       {/* Adicionando overflow-x-auto para permitir scroll horizontal */}
-      <div className="w-[360px] sm:w-full overflow-x-auto">
+      <div>
         <DataTable columns={columns} data={tutors || []} />
       </div>
     </>

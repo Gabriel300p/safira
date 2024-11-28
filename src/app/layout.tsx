@@ -1,12 +1,11 @@
-import Sidebar from "@/components/sidebar";
+import ClientLayout from "@/components/client-layout";
+
 import { Toaster } from "@/components/ui/toaster";
-import ProtectedLayout from "@/providers/ProtectedLayout";
-import {
-  default as Providers,
-  default as ReactQueryProvider,
-} from "@/providers/ReactQueryProvider";
+
+import { default as Providers } from "@/providers/ReactQueryProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,17 +22,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <body
-        className={`${inter.className} antialiased bg-neutral-950 flex min-h-screen 
-          `}
-      >
+      <body className={`${inter.className} antialiased bg-neutral-950`}>
         <Providers>
-          <Sidebar />
-          <div className="bg-neutral-100 rounded-xl flex flex-col w-full">
-            {children}
-          </div>
+          <ClientLayout>{children}</ClientLayout>
+          <Toaster />
         </Providers>
-        <Toaster />
       </body>
       {/* <body
         className={`${inter.className} antialiased bg-neutral-950 flex justify-end min-h-screen  relative inset-0 left-0 overflow-x-hidden sm:overflow-x-auto mb-5`}
