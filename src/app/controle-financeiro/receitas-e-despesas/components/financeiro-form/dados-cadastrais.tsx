@@ -23,13 +23,15 @@ import Datepicker from "react-tailwindcss-datepicker";
 import { Financeiro } from "../../utils/schema";
 
 // Função para formatar o valor em R$
+
 const formatarValor = (valor: string) => {
-  // Remove todos os caracteres não numéricos
   const numero = valor.replace(/[^\d]/g, "");
-  // Formata o número como moeda BRL
-  const formatado = (Number(numero) / 100).toLocaleString("pt-BR", {
+  const valorEmReais = Number(numero) / 100;
+  const formatado = valorEmReais.toLocaleString("pt-BR", {
     style: "currency",
     currency: "BRL",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   });
   return formatado;
 };
@@ -111,12 +113,14 @@ export function DadosCadastrais() {
                 {...field}
                 onChange={(e) => {
                   const valor = e.target.value.replace(/[^\d]/g, "");
-                  field.onChange(Number(valor));
+                  field.onChange(Number(valor) / 100);
                 }}
                 onBlur={(e) => {
-                  e.target.value = formatarValor(String(field.value));
+                  e.target.value = formatarValor(String(field.value * 100));
                 }}
-                value={field.value ? formatarValor(String(field.value)) : ""}
+                value={
+                  field.value ? formatarValor(String(field.value * 100)) : ""
+                }
               />
             </FormControl>
             <FormMessage />

@@ -63,24 +63,7 @@ const Toolbar: FC<ToolbarProps> = ({ table }) => {
         }
         className="max-w-xs"
       />
-      <div>
-        <Datepicker
-          value={dateRange}
-          useRange={true}
-          showShortcuts={true}
-          placeholder="dd/mm/aa - dd/mm/aa"
-          primaryColor="orange"
-          displayFormat="DD/MM/YYYY"
-          popoverDirection="down"
-          toggleClassName={`absolute rounded-r-lg text-neutral-600 left-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed `}
-          inputClassName={`py-2 -pr-10 pl-10 w-56 rounded-md border border-neutral-200 font-medium px-3 text-sm ring-offset-white placeholder:text-neutral-500 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 ${
-            isDateFilled
-              ? "border-orange-500 text-orange-500 bg-orange-50"
-              : "bg-white"
-          }`}
-          onChange={handleDateChange}
-        />
-      </div>
+
       {table.getColumn("tipo") && (
         <Filter
           column={table.getColumn("tipo")}
@@ -110,6 +93,24 @@ const Toolbar: FC<ToolbarProps> = ({ table }) => {
           icon={<PiRepeat className="w-[18px] h-[18px] text-neutral-600" />}
         />
       )}
+      <div>
+        <Datepicker
+          value={dateRange}
+          useRange={true}
+          showShortcuts={true}
+          placeholder="dd/mm/aa - dd/mm/aa"
+          primaryColor="orange"
+          displayFormat="DD/MM/YYYY"
+          popoverDirection="down"
+          toggleClassName={`absolute rounded-r-lg text-neutral-600 left-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed z-50 left-0`}
+          inputClassName={`py-2 -pr-10 pl-10 w-56 rounded-md border border-neutral-200 font-medium px-3 text-sm ring-offset-white placeholder:text-neutral-500 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 ${
+            isDateFilled
+              ? "border-orange-500 text-orange-500 bg-orange-50"
+              : "bg-white"
+          }`}
+          onChange={handleDateChange}
+        />
+      </div>
     </div>
   );
 };
